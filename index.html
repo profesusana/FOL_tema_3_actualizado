@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Las medidas de prevención · Cuestionario interactivo FOL</title>
+  <style>
+    /* ==========================================================================
+       Estilos integrados (CSS3) para funcionamiento 100 % sin conexión
+       ========================================================================== */
+    :root {
+      --bg-canvas: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --border-hairline: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent: #1d4ed8;
+      --accent-hover: #1e40af;
+      --accent-soft: #eff6ff;
+      --ok-text: #065f46;
+      --ok-bg: #ecfdf5;
+      --ok-border: #059669;
+      --err-text: #991b1b;
+      --err-bg: #fef2f2;
+      --err-border: #dc2626;
+      --radius-lg: 12px;
+      --radius-md: 8px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    @media (min-width: 640px) {
+      .container {
+        padding: 28px 24px 48px;
+      }
+    }
+
+    /* Cabecera de bienvenida */
+    .hero-header {
+      border-bottom: 1px solid var(--border-hairline);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+
+    .hero-kicker {
+      margin: 0;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .hero-title {
+      margin: 8px 0 0;
+      font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+
+    .hero-desc {
+      margin: 12px 0 0;
+      max-width: 72ch;
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .attribution-line {
+      margin: 14px 0 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Rejilla de portada */
+    .home-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 900px) {
+      .home-grid {
+        grid-template-columns: 7fr 5fr;
+        align-items: start;
+      }
+    }
+
+    .card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .field-group {
+      margin-top: 20px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    select.select-input {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 14px;
+      font-size: 0.9375rem;
+      font-family: inherit;
+      color: var(--text-primary);
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+    }
+
+    select.select-input:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+      border-color: var(--accent);
+    }
+
+    .count-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .count-btn {
+      min-height: 44px;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-surface);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .count-btn:hover {
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+
+    .count-btn.active {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding-top: 18px;
+      margin-top: 20px;
+      border-top: 1px solid var(--bg-subtle);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .checkbox-row input {
+      margin-top: 4px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn:focus-visible,
+    .count-btn:focus-visible,
+    .option-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-surface);
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-subtle);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .topic-list {
+      list-style: none;
+      margin: 16px 0 0;
+      padding: 0;
+    }
+
+    .topic-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--bg-subtle);
+      font-size: 0.875rem;
+    }
+
+    .topic-list li:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .topic-count {
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* Vista del test */
+    .quiz-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 16px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .quiz-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .quiz-status {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background-color: var(--border-hairline);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: var(--accent);
+      border-radius: 999px;
+      transition: width 0.2s ease;
+    }
+
+    .question-meta {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .question-stem {
+      margin: 0 0 22px;
+      font-size: 1.1875rem;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--text-primary);
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      width: 100%;
+      min-height: 52px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      text-align: left;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.96875rem;
+      line-height: 1.5;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background-color: var(--accent-soft);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+      transition: none;
+    }
+
+    .option-letter {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    .option-text {
+      flex: 1;
+    }
+
+    .option-tag {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .option-btn.is-correct {
+      background-color: var(--ok-bg);
+      border-color: var(--ok-border);
+      color: var(--ok-text);
+    }
+
+    .option-btn.is-correct .option-letter {
+      background-color: var(--ok-border);
+      border-color: var(--ok-border);
+      color: #ffffff;
+    }
+
+    .option-btn.is-wrong {
+      background-color: var(--err-bg);
+      border-color: var(--err-border);
+      color: var(--err-text);
+    }
+
+    .option-btn.is-wrong .option-letter {
+      background-color: var(--err-border);
+      border-color: var(--err-border);
+      color: #ffffff;
+    }
+
+    .option-btn.is-dimmed {
+      background-color: #f8fafc;
+      border-color: var(--border-hairline);
+      color: var(--text-muted);
+    }
+
+    .feedback-box {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-hairline);
+      animation: fadeSlideIn 0.18s ease-out;
+    }
+
+    .feedback-box.is-correct {
+      background-color: var(--ok-bg);
+      border-color: #6ee7b7;
+      color: var(--ok-text);
+    }
+
+    .feedback-box.is-wrong {
+      background-color: var(--err-bg);
+      border-color: #fca5a5;
+      color: var(--err-text);
+    }
+
+    .feedback-heading {
+      margin: 0;
+      font-weight: 700;
+      font-size: 0.96875rem;
+    }
+
+    .feedback-explanation {
+      margin: 8px 0 0;
+      font-size: 0.9375rem;
+      color: var(--text-primary);
+    }
+
+    .quiz-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--bg-subtle);
+    }
+
+    /* Resultados */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    @media (min-width: 640px) {
+      .results-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .metric-box {
+      border: 1px solid var(--border-hairline);
+      background-color: var(--bg-canvas);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .metric-box.ok {
+      background-color: var(--ok-bg);
+      border-color: #a7f3d0;
+    }
+
+    .metric-box.err {
+      background-color: var(--err-bg);
+      border-color: #fecaca;
+    }
+
+    .metric-box.grade {
+      background-color: var(--accent-soft);
+      border-color: #bfdbfe;
+      grid-column: span 2;
+    }
+
+    .metric-box.grade.is-fail {
+      background-color: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    @media (min-width: 640px) {
+      .metric-box.grade {
+        grid-column: span 1;
+      }
+    }
+
+    .metric-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .metric-value {
+      display: block;
+      margin-top: 4px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .metric-box.ok .metric-value { color: var(--ok-text); }
+    .metric-box.err .metric-value { color: var(--err-text); }
+    .metric-box.grade .metric-value { color: var(--accent); }
+    .metric-box.grade.is-fail .metric-value { color: #92400e; }
+
+    .results-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+      padding-top: 22px;
+      border-top: 1px solid var(--bg-subtle);
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <!-- ==================== PANTALLA PRINCIPAL ==================== -->
+    <section id="view-home" aria-labelledby="main-title">
+      <header class="hero-header">
+        <p class="hero-kicker">Formación y Orientación Laboral · Unidad 3</p>
+        <h1 id="main-title" class="hero-title">Las medidas de prevención</h1>
+        <p class="hero-desc">
+          Cuestionario interactivo autocorregible para evaluar la comprensión práctica de la prevención y protección laboral, los principios de la acción preventiva, las técnicas preventivas, los equipos de protección, los colectivos especialmente sensibles y las señales de seguridad.
+        </p>
+        <p class="attribution-line">Elaboración de Susana Felipe Ortiz con ayuda de la IA</p>
+      </header>
+
+      <div class="home-grid">
+        <div class="card">
+          <h2 class="card-title">Configurar práctica</h2>
+
+          <div class="field-group">
+            <label for="scope-select" class="field-label">Tema o subtema a practicar</label>
+            <select id="scope-select" class="select-input"></select>
+          </div>
+
+          <div class="field-group">
+            <span class="field-label">
+              Número de preguntas (disponibles: <span id="available-count" class="tabular-nums">150</span>)
+            </span>
+            <div id="count-buttons" class="count-grid" role="group" aria-label="Selector de número de preguntas"></div>
+          </div>
+
+          <div class="checkbox-row">
+            <input type="checkbox" id="shuffle-checkbox" />
+            <label for="shuffle-checkbox">
+              <strong>Orden aleatorio de las preguntas</strong><br />
+              <span>Mezcla las preguntas seleccionadas manteniendo intacto el orden A, B, C y D de cada alternativa.</span>
+            </label>
+          </div>
+
+          <div class="field-group">
+            <button type="button" id="btn-start" class="btn btn-primary">Comenzar test</button>
+          </div>
+        </div>
+
+        <aside class="card">
+          <h2 class="card-title">Estructura del banco (150 preguntas)</h2>
+          <ul id="topic-summary" class="topic-list"></ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== PANTALLA DEL CUESTIONARIO ==================== -->
+    <section id="view-quiz" class="hidden" aria-live="polite">
+      <nav class="quiz-topbar" aria-label="Controles del cuestionario">
+        <div class="quiz-actions">
+          <button type="button" id="btn-home" class="btn btn-secondary">Volver al inicio</button>
+          <button type="button" id="btn-restart" class="btn btn-secondary">Reiniciar práctica</button>
+        </div>
+        <div id="quiz-progress-text" class="quiz-status tabular-nums"></div>
+      </nav>
+
+      <div class="progress-track" role="progressbar" id="progress-bar-role" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso en el cuestionario">
+        <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
+      </div>
+
+      <article class="card">
+        <div id="question-meta" class="question-meta"></div>
+        <h2 id="question-stem" class="question-stem"></h2>
+        <div id="options-container" class="options-list" role="group" aria-label="Alternativas de respuesta"></div>
+        <div id="feedback-box" class="feedback-box hidden" role="status" aria-live="polite">
+          <p id="feedback-heading" class="feedback-heading"></p>
+          <p id="feedback-explanation" class="feedback-explanation"></p>
+        </div>
+
+        <div class="quiz-footer">
+          <button type="button" id="btn-prev" class="btn btn-secondary">Pregunta anterior</button>
+          <button type="button" id="btn-next" class="btn btn-primary hidden">Siguiente pregunta</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- ==================== PANTALLA DE RESULTADOS ==================== -->
+    <section id="view-results" class="hidden" aria-labelledby="results-title">
+      <div class="card">
+        <p class="hero-kicker">Resultados de la práctica</p>
+        <h2 id="results-title" class="hero-title" style="font-size: 1.75rem;"></h2>
+        <p id="results-message" class="hero-desc"></p>
+
+        <div class="results-grid">
+          <div class="metric-box">
+            <span class="metric-label">Realizadas</span>
+            <span id="res-total" class="metric-value tabular-nums">0</span>
+          </div>
+          <div class="metric-box ok">
+            <span class="metric-label">Aciertos</span>
+            <span id="res-correct" class="metric-value tabular-nums">0</span>
+          </div>
+          <div class="metric-box err">
+            <span class="metric-label">Errores</span>
+            <span id="res-wrong" class="metric-value tabular-nums">0</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Porcentaje</span>
+            <span id="res-pct" class="metric-value tabular-nums">0%</span>
+          </div>
+          <div id="res-grade-box" class="metric-box grade">
+            <span class="metric-label">Nota / 10</span>
+            <span id="res-grade" class="metric-value tabular-nums">0.00</span>
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button type="button" id="btn-repeat-incorrect" class="btn btn-primary hidden">Repetir incorrectas</button>
+          <button type="button" id="btn-repeat" class="btn btn-primary">Repetir cuestionario</button>
+          <button type="button" id="btn-other-topic" class="btn btn-secondary">Elegir otro tema</button>
+          <button type="button" id="btn-results-home" class="btn btn-secondary">Volver al inicio</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /* ==========================================================================
+       Banco completo aprobado (150 preguntas) y lógica interactiva integrada
+       ========================================================================== */
+    (function () {
+      'use strict';
+
+      var QUESTIONS = [{"id":1,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.1","subtopic":"1.1. Obligación empresarial e integración preventiva (art. 14.2 LPRL)","stem":"En una empresa industrial, la dirección delega toda la gestión preventiva en un técnico externo y desvincula a los mandos intermedios de cualquier decisión sobre seguridad. ¿Por qué incumple esta práctica el principio de integración de la prevención?","options":{"A":"Porque la integración exige que los representantes sindicales validen previamente las órdenes técnicas en cada sección.","B":"Porque los criterios preventivos deben aplicarse en todos los niveles jerárquicos y en todas las actividades.","C":"Porque la normativa obliga a constituir un departamento médico interno que supervise a los mandos de planta.","D":"Porque los mandos intermedios deben asumir en persona la evaluación higiénica cuando falla la empresa externa."},"correct":"B","explanation":"La integración de la prevención consiste en aplicar criterios de PRL en las decisiones tomadas en todos los niveles jerárquicos (directivos, mandos intermedios y trabajadores) y en todas las actividades de la empresa. No puede delegarse exclusivamente en un agente externo dejando fuera la línea jerárquica."},{"id":2,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.1","subtopic":"1.1. Obligación empresarial e integración preventiva (art. 14.2 LPRL)","stem":"Una fábrica decide implantar controles exhaustivos sobre los factores de riesgo presentes en su cadena de montaje. Además de evitar daños en la salud de la plantilla, ¿qué otras dos consecuencias pretende prevenir esta actuación?","options":{"A":"Las sanciones penales a los mandos intermedios y los conflictos de horario en los turnos nocturnos.","B":"La rotación voluntaria del personal cualificado y la obsolescencia de la maquinaria con marcado europeo.","C":"Las reclamaciones de clientes por retrasos comerciales y la pérdida de cobertura de los seguros privados.","D":"Las alteraciones en el proceso productivo y las pérdidas económicas derivadas de una gestión deficiente."},"correct":"D","explanation":"Según el documento, el conocimiento y control de todos los factores de riesgo tiene como objetivo evitar tres grandes consecuencias negativas: daños en la salud de los trabajadores, alteraciones en el proceso productivo y pérdidas económicas para la empresa."},{"id":3,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.1","subtopic":"1.1. Obligación empresarial e integración preventiva (art. 14.2 LPRL)","stem":"De acuerdo con el artículo 14.2 de la Ley de Prevención de Riesgos Laborales, ¿cómo debe cumplir el empresario su deber de proteger a los trabajadores frente a los riesgos laborales?","options":{"A":"Integrando la actividad preventiva en la empresa y adoptando todas las medidas necesarias.","B":"Entregando un manual de autoprotección y contratando un seguro colectivo para posibles accidentes.","C":"Limitando su actuación a máquinas peligrosas y delegando el resto en cada trabajador.","D":"Aplicando medidas correctoras tras registrarse bajas médicas o incidencias en la evaluación anual."},"correct":"A","explanation":"El art. 14.2 LPRL impone al empresario la obligación de proteger a los trabajadores garantizando su salud y seguridad en todos los aspectos relacionados con el trabajo, integrando la actividad preventiva en la empresa y adoptando cuantas medidas sean necesarias."},{"id":4,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.1","subtopic":"1.1. Obligación empresarial e integración preventiva (art. 14.2 LPRL)","stem":"En el caso de SIRTEL, SA, Arturo es oficial de primera encargado del mantenimiento de maquinaria eléctrica. Antes de iniciar su actividad laboral, ¿qué información específica debe proporcionarle obligatoriamente la empresa?","options":{"A":"La póliza de responsabilidad civil, el historial de accidentes previos y la normativa interna de sanciones.","B":"El coste de las reparaciones eléctricas, el calendario anual de turnos y los plazos de producción.","C":"Los riesgos generales de la empresa, los específicos de su actividad y la actuación ante emergencias.","D":"La relación de proveedores industriales, el catálogo de repuestos y la lista de normas europeas."},"correct":"C","explanation":"En el ejemplo de SIRTEL, SA se detalla que, antes de iniciar su actividad, el empresario debe facilitar al trabajador información sobre los riesgos generales de la empresa, los específicos de su actividad laboral y la actuación en caso de situación de emergencia."},{"id":5,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.1","subtopic":"1.1. Obligación empresarial e integración preventiva (art. 14.2 LPRL)","stem":"SIRTEL, SA adquiere una nueva máquina fresadora para el taller en el que trabaja Arturo. ¿Qué requisito de adquisición figura como medida preventiva para asegurar su adecuación normativa?","options":{"A":"Incorporar un certificado interno redactado por el departamento de compras tras la prueba inicial en el taller.","B":"Contar con la marca CE que acredita su conformidad con la legislación europea sobre prevención de riesgos.","C":"Disponer de un manual traducido al idioma local aunque carezca de homologación técnica en el ámbito europeo.","D":"Haber superado una inspección voluntaria realizada por el operario de mantenimiento antes de su puesta en marcha."},"correct":"B","explanation":"El documento señala expresamente, dentro de las medidas de prevención de SIRTEL, SA, la adquisición de maquinaria con la marca CE, que garantiza su conformidad con la legislación europea en materia de prevención de riesgos."},{"id":6,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.1","subtopic":"1.1. Obligación empresarial e integración preventiva (art. 14.2 LPRL)","stem":"Para que la prevención esté verdaderamente integrada en una empresa de servicios, ¿quiénes deben aplicar criterios preventivos en sus decisiones cotidianas?","options":{"A":"Directivos, mandos intermedios y trabajadores en el conjunto de actividades desarrolladas en la organización.","B":"Los responsables de recursos humanos junto con el personal sanitario encargado de los reconocimientos médicos.","C":"Los jefes de departamento que supervisan directamente tareas con equipos eléctricos o agentes químicos.","D":"Los auditores externos contratados para revisar anualmente el cumplimiento documental de la organización."},"correct":"A","explanation":"La integración de la prevención requiere que los criterios preventivos se apliquen en las decisiones tomadas en todos los niveles jerárquicos: directivos, mandos intermedios y trabajadores, así como en todas las actividades de la empresa."},{"id":7,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.2","subtopic":"1.2. Diferencia entre prevención y protección","stem":"Una carpintería sustituye una sierra circular muy ruidosa por un modelo de última generación mucho más silencioso y, paralelamente, entrega tapones auditivos a los operarios. ¿Cómo se clasifican ambas decisiones?","options":{"A":"Ambas constituyen medidas de protección colectiva, puesto que reducen el daño percibido por la plantilla en el taller.","B":"La compra de la máquina es una medida de protección y la entrega de tapones corresponde a la prevención individual.","C":"Ambas actuaciones son medidas de prevención primaria al aplicarse antes de que aparezca la pérdida auditiva.","D":"La sustitución de la máquina es una medida de prevención y el uso de tapones es una medida de protección."},"correct":"D","explanation":"Las medidas de prevención tratan de eliminar o minimizar los riesgos evitando que se produzcan daños (comprar máquinas poco o nada ruidosas), mientras que las de protección tratan de evitar o reducir los daños cuando el riesgo persiste (protectores auditivos)."},{"id":8,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.2","subtopic":"1.2. Diferencia entre prevención y protección","stem":"En una obra de edificación se exige a todos los albañiles llevar casco de seguridad mientras permanecen bajo los forjados. ¿Cuál es el objetivo técnico específico de esta medida?","options":{"A":"Suprimir el origen físico del riesgo eliminando la posibilidad de que caigan herramientas desde las plantas superiores.","B":"Garantizar que la empresa cumpla con la adquisición de equipos industriales dotados de la certificación europea CE.","C":"Minimizar las consecuencias lesivas del impacto en caso de que llegue a producirse la caída de un objeto.","D":"Sustituir la instalación de redes perimetrales en las zonas de trabajo donde el tránsito de personal es esporádico."},"correct":"C","explanation":"El casco es una medida de protección; su función no es evitar que el objeto caiga (eso sería prevención o protección colectiva según el caso), sino evitar o reducir el daño físico en el trabajador si el impacto ocurre."},{"id":9,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.2","subtopic":"1.2. Diferencia entre prevención y protección","stem":"Arturo, técnico de mantenimiento eléctrico, recibe formación teórica y práctica sobre riesgos específicos y se le realiza un reconocimiento médico. Asimismo, la empresa le entrega botas de goma aislantes y guantes dieléctricos. ¿Cómo se distribuyen estas actuaciones?","options":{"A":"La formación y el reconocimiento médico son medidas de prevención; las botas y los guantes son medidas de protección.","B":"El reconocimiento médico y las botas pertenecen a la protección; la formación y los guantes son prevención laboral.","C":"Todas las entregas materiales al trabajador forman parte de la prevención y solo los cursos integran la protección.","D":"La formación práctica pertenece a la protección activa, mientras que el reconocimiento y las botas son prevención médica."},"correct":"A","explanation":"Según el caso de SIRTEL, SA, la formación teórica y práctica y el reconocimiento médico son medidas de prevención, mientras que facilitar equipos individuales como botas de goma aislantes o guantes corresponde a medidas de protección."},{"id":10,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.2","subtopic":"1.2. Diferencia entre prevención y protección","stem":"En un laboratorio químico se detecta que un procedimiento genera salpicaduras frecuentes. El equipo directivo duda entre rediseñar el proceso cerrado de trasvase o repartir pantallas faciales. ¿Qué diferencia conceptual distingue ambas opciones?","options":{"A":"El trasvase cerrado reduce pérdidas materiales del proceso y la pantalla suprime el peligro químico ambiental.","B":"La pantalla facial elimina la causa de la salpicadura y el trasvase cerrado atenúa posibles quemaduras leves.","C":"El trasvase cerrado depende del operario de guardia y la pantalla responde a criterios de higiene industrial.","D":"El trasvase cerrado busca evitar el riesgo previo y la pantalla pretende reducir el daño si ocurre."},"correct":"D","explanation":"La prevención actúa sobre el riesgo para evitar o minimizar que ocurra el suceso peligroso (rediseñar el proceso cerrado), mientras que la protección (pantalla facial) trata de evitar o reducir los daños sobre el trabajador si la salpicadura se produce."},{"id":11,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.2","subtopic":"1.2. Diferencia entre prevención y protección","stem":"¿Cuál de las siguientes actuaciones en un taller mecánico constituye claramente una medida de prevención y no una medida de protección?","options":{"A":"Suministrar gafas de montura integral para evitar la proyección de virutas metálicas sobre la córnea del operario.","B":"Colocar un mono de trabajo ajustado que evite que la ropa suelta quede atrapada en los ejes giratorios de un torno.","C":"Diseñar adecuadamente los locales y las instalaciones eléctricas antes de iniciar las tareas productivas del taller.","D":"Dotar a los mecánicos de calzado con puntera reforzada para reducir lesiones ante la caída de piezas pesadas."},"correct":"C","explanation":"El diseño adecuado de los locales y las instalaciones dedicadas a la actividad empresarial figura expresamente como medida de prevención en el ejemplo de SIRTEL, SA; las gafas, el mono y el calzado reforzado son equipos de protección."},{"id":12,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.2","subtopic":"1.2. Diferencia entre prevención y protección","stem":"Durante una auditoría interna, un responsable afirma que «si los trabajadores llevan puestos sus equipos individuales en todo momento, ya no es necesario invertir en el diseño seguro de los locales». ¿Qué error conceptual comete?","options":{"A":"Confunde el concepto de protección frente al daño con la acción preventiva destinada a eliminar o minimizar el riesgo.","B":"Desconoce que el diseño seguro de los locales solo es exigible en empresas industriales con más de cincuenta operarios.","C":"Ignora que los equipos individuales anulan legalmente la obligación empresarial de impartir formación teórica y práctica.","D":"Asume que la prevención se limita al ámbito sanitario mientras que la protección abarca únicamente la ergonomía laboral."},"correct":"A","explanation":"Las medidas de protección (como los EPI) buscan reducir los daños cuando el riesgo existe, pero no sustituyen a las medidas de prevención, cuyo fin es eliminar o minimizar el riesgo en origen mediante el diseño seguro de locales, equipos y procedimientos."},{"id":13,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.2","subtopic":"1.2. Diferencia entre prevención y protección","stem":"Una empresa alimentaria mejora la ventilación general de sus cocinas y adquiere hornos con aislamiento térmico avanzado. Paralelamente, entrega manoplas ignífugas al personal. ¿Qué finalidad persigue la primera actuación?","options":{"A":"Sustituir la señalización térmica de los hornos mediante mejoras técnicas en las conducciones de aire.","B":"Minimizar la probabilidad de que el riesgo térmico o de inhalación llegue a producir daños en el personal.","C":"Reducir las lesiones cutáneas leves en las manos cuando el trabajador manipula bandejas recién horneadas.","D":"Cumplir el requisito de protección individual exigido para puestos con exposición puntual a altas temperaturas."},"correct":"B","explanation":"Mejorar el diseño de las instalaciones y equipos para controlar los factores de riesgo antes de que dañen al trabajador es una medida de prevención, orientada a eliminar o minimizar el riesgo evitando que se produzcan daños."},{"id":14,"topicId":"t1","topic":"1. Las medidas de prevención y de protección","subtopicId":"1.2","subtopic":"1.2. Diferencia entre prevención y protección","stem":"Para Arturo, oficial de mantenimiento eléctrico, la empresa contempla la entrega de un mono de trabajo específico que evite atrapamientos. ¿A qué criterio técnico responde este elemento dentro del caso planteado en el texto?","options":{"A":"A una medida de prevención organizativa aplicable antes de evaluar las máquinas del taller eléctrico.","B":"A un requisito de señalización personal que identifica al operario autorizado para manipular cuadros eléctricos.","C":"A una medida de higiene industrial orientada a controlar agentes químicos presentes en la limpieza de motores.","D":"A una medida de protección destinada a evitar o reducir el daño físico derivado de la actividad en el puesto."},"correct":"D","explanation":"En el caso práctico de SIRTEL, SA, el mono de trabajo que evite atrapamientos, junto con las botas de goma aislantes, guantes y protectores auditivos, se clasifica expresamente dentro de las medidas de protección facilitadas al trabajador."},{"id":15,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"¿Cuál es la finalidad esencial que define a cualquier medida de prevención de riesgos laborales aplicada en una empresa?","options":{"A":"Indemnizar económicamente al empleado afectado cuando acontece un siniestro laboral durante su jornada.","B":"Reemplazar las protecciones colectivas por equipos personales cuando el peligro resulta difícil de medir.","C":"Eliminar o disminuir el peligro inicial reduciendo la probabilidad de que ocurra el suceso adverso.","D":"Trasladar el control de las condiciones laborales al empleado mediante consignas verbales en cada turno."},"correct":"C","explanation":"Las medidas de prevención tienen por objeto eliminar o disminuir el riesgo en su origen minimizando la probabilidad de que el acontecimiento no deseado se materialice."},{"id":16,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"La prevención de riesgos laborales se define en el documento como un conjunto de medidas adoptadas en la empresa. ¿En qué momentos o ámbitos de la actividad empresarial deben aplicarse?","options":{"A":"Durante la contratación inicial y tras registrarse un accidente laboral que conlleve baja médica.","B":"En las áreas técnicas donde se manipulan sustancias químicas o maquinaria industrial de gran potencia.","C":"En la etapa previa a la apertura de instalaciones antes de incorporar al personal de plantilla.","D":"En todas las fases de la actividad para evitar o disminuir los riesgos laborales derivados."},"correct":"D","explanation":"El texto define la PRL como «el conjunto de medidas adoptadas en todas las fases de actividad de una empresa, con el fin de evitar o disminuir los riesgos derivados del trabajo»."},{"id":17,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"En una oficina, un empleado con problemas lumbares recibe la indicación de su superior de «acostumbrarse al ritmo y al mobiliario estándar porque todos usan la misma silla». ¿Qué principio del artículo 15 de la LPRL vulnera esa respuesta?","options":{"A":"Combatir los riesgos exclusivamente en la fase final del proceso administrativo.","B":"Adaptar el trabajo a la persona teniendo en cuenta sus características individuales.","C":"Sustituir los equipos informáticos antiguos sin evaluar las posturas habituales.","D":"Anteponer la protección individual de cada empleado a la planificación colectiva."},"correct":"B","explanation":"El principio de adaptar el trabajo a la persona corrige la práctica habitual de pretender que sea la persona quien se adapte al trabajo; exige considerar las características individuales de cada trabajador y organizar el trabajo en función de ellas."},{"id":18,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"Una empresa utiliza un disolvente muy tóxico en el desengrasado de piezas. Tras estudiar el mercado, decide reemplazarlo por un producto acuoso biodegradable que no genera vapores nocivos. ¿Qué principio de la acción preventiva aplica directamente?","options":{"A":"Sustituir elementos peligrosos por alternativas que entrañen poco o ningún peligro.","B":"Evaluar los riesgos inevitables mediante mediciones ambientales de carácter trimestral periódico.","C":"Impartir instrucciones detalladas sobre el uso obligatorio de mascarillas químicas filtrantes.","D":"Combatir los daños individuales tras la exposición mediante revisiones médicas frecuentes."},"correct":"A","explanation":"Reemplazar una sustancia peligrosa por otra inocua o de mucho menor peligro materializa literalmente el principio del art. 15 LPRL de «sustituir lo peligroso por lo que entrañe poco o ningún peligro»."},{"id":19,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"En una nave logística existe un compresor muy ruidoso junto a los puestos de empaquetado. Como solución inicial se traslada el compresor a un recinto aislado lejano a los operarios. ¿Qué principio de la acción preventiva ilustra esta decisión?","options":{"A":"Tener en cuenta la evolución de la técnica para aumentar la velocidad del empaquetado.","B":"Planificar la prevención integrando únicamente los factores de relación social entre operarios.","C":"Combatir los riesgos en su origen actuando directamente sobre la fuente emisora del peligro.","D":"Priorizar la entrega de orejeras individuales antes de modificar la distribución de la nave."},"correct":"C","explanation":"El documento pone precisamente como ejemplo del principio «combatir los riesgos en su origen» el hecho de alejar la máquina que produce el ruido, evitando que el foco alcance a los trabajadores."},{"id":20,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"Cuando en un proceso industrial no resulta técnicamente posible eliminar por completo un riesgo físico como el ruido, ¿qué exige de forma inmediata el artículo 15 de la LPRL?","options":{"A":"Suministrar protectores auditivos certificados sin necesidad de efectuar mediciones técnicas previas.","B":"Evaluar el riesgo que no se ha podido evitar para adoptar posteriormente las medidas oportunas.","C":"Reemplazar al personal expuesto mediante turnos rotatorios breves que reduzcan la jornada diaria.","D":"Aislar la zona con señalización triangular amarilla manteniendo inalterado el nivel acústico."},"correct":"B","explanation":"El segundo principio de la acción preventiva establece que se deben «evaluar los riesgos que no se puedan evitar» (por ejemplo, evaluar el ruido si no se puede evitar) con el fin de tomar las medidas oportunas."},{"id":21,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"Una imprenta sustituye sus antiguas guillotinas mecánicas por máquinas modernas automatizadas con sensores ópticos integrados, logrando producir más rápido y sin riesgo de atrapamiento manual. ¿Qué principio preventivo refleja este cambio?","options":{"A":"Evaluar los riesgos inevitables antes de modificar los sistemas de iluminación del taller.","B":"Dar instrucciones escritas para compensar la falta de mantenimiento en las cuchillas antiguas.","C":"Adaptar el horario de la plantilla a los ciclos de producción marcados por la nueva maquinaria.","D":"Tener en cuenta la evolución de la técnica para incrementar productividad y eliminar riesgos."},"correct":"D","explanation":"El principio «tener en cuenta la evolución de la técnica» destaca que los avances tecnológicos permiten simultáneamente incrementar la productividad y eliminar riesgos para la salud de los trabajadores."},{"id":22,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"En una fábrica de piezas metálicas, la dirección elabora un programa que coordina los equipos empleados, la distribución de los turnos, el entorno físico y el clima laboral entre secciones. ¿A qué principio responde este enfoque?","options":{"A":"A la sustitución inmediata de materias peligrosas por compuestos de baja toxicidad.","B":"A la evaluación específica de los accidentes graves acontecidos durante el último año.","C":"A la planificación de la prevención integrando aspectos técnicos, organizativos, sociales y ambientales.","D":"A la selección prioritaria de protecciones individuales adaptadas a cada categoría profesional."},"correct":"C","explanation":"El principio de «planificar la prevención» exige integrar en un conjunto coherente la técnica, la organización del trabajo, las condiciones de trabajo, las relaciones sociales y la influencia de los factores ambientales en el trabajo."},{"id":23,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"En el caso práctico final del tema, un trabajador de 27 años fallece aplastado por un elevador de palés de cinco toneladas tras llevar un año trabajando en la fábrica. Si no se evaluó la estabilidad de la carga ni se organizaron instrucciones claras sobre la maniobra, ¿qué principios preventivos se han incumplido?","options":{"A":"Evaluar los riesgos inevitables y dar las debidas instrucciones sobre los equipos y procedimientos de trabajo.","B":"Sustituir la maquinaria eléctrica por equipos manuales y limitar el horario del personal con poca antigüedad.","C":"Anteponer el uso de casco individual al mantenimiento del elevador y reducir el peso máximo por turno.","D":"Aplicar la medicina reparadora antes del accidente y contratar únicamente a operarios mayores de cuarenta años."},"correct":"A","explanation":"En la operación con un elevador de gran tonelaje resulta esencial evaluar los riesgos que no puedan evitarse, adoptar medidas técnicas/colectivas seguras y dar instrucciones claras al trabajador sobre los riesgos en el lugar, los equipos que utiliza y los procedimientos que realiza."},{"id":24,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"En una oficina como la de Jaime, los cables del ordenador, teléfono, auriculares y flexo están sueltos por el suelo obligando a levantar los pies al levantarse de una silla no ergonómica, junto a una fotocopiadora ruidosa. ¿Qué actuación respeta los principios del art. 15 LPRL?","options":{"A":"Entregar tapones auditivos, señalizar los cables en el suelo y reforzar la formación postural.","B":"Canalizar cables para evitar tropiezos, alejar la fotocopiadora ruidosa y dotar una silla ergonómica.","C":"Medir el ruido ambiental cada año, delimitar el paso con pintura y entregar auriculares individuales.","D":"Instalar carteles de advertencia bajo la mesa, rotar de puesto y mantener los equipos actuales."},"correct":"B","explanation":"Frente a los problemas de Jaime, los principios de acción preventiva obligan a evitar los riesgos eliminando los cables sueltos, combatir el ruido en su origen (alejar o sustituir la fotocopiadora por otra silenciosa) y adaptar el trabajo a la persona dotando de una silla ergonómica."},{"id":25,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"¿En qué única situación resulta conforme con el artículo 15 de la LPRL recurrir a equipos de protección individual frente a un riesgo laboral?","options":{"A":"Cuando la evaluación inicial identifique riesgos mecánicos o químicos en máquinas con marcado CE.","B":"Cuando el proceso productivo exija movilidad continua entre distintas naves sin instalación fija posible.","C":"Cuando las medidas de protección colectiva se hayan implantado en las áreas generales del edificio.","D":"Cuando las medidas de seguridad colectivas sean insuficientes para eliminar el daño sobre la salud."},"correct":"D","explanation":"El principio de «adoptar medidas que antepongan la protección colectiva a la individual» establece que es prioritaria la seguridad colectiva y solamente cuando sea insuficiente para eliminar el daño utilizaremos los EPI."},{"id":26,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"Según el principio de dar instrucciones a los trabajadores recogido en el artículo 15 de la LPRL, ¿sobre qué tres elementos concretos debe mantener informado al empleado la empresa en todo momento?","options":{"A":"Riesgos del lugar de trabajo, equipos utilizados y procedimientos propios de la actividad.","B":"Convenio colectivo vigente, historial médico sectorial y estadísticas nacionales de siniestralidad anual.","C":"Sanciones económicas internas, catálogo europeo de fabricantes y horarios de los altos directivos.","D":"Coberturas de la mutua laboral, precios de reposición y fechas de inspecciones externas."},"correct":"A","explanation":"El noveno principio del art. 15 LPRL indica literalmente que el trabajador debe conocer en todo momento los riesgos existentes en el lugar de trabajo, en los equipos de trabajo que utiliza y en los procedimientos que realiza en el desempeño de su actividad."},{"id":27,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"En el ejercicio «Ponte a prueba» del tema se pregunta cuál de varias opciones NO constituye un principio de la acción preventiva. ¿Cuál de las siguientes afirmaciones contradice el artículo 15 de la LPRL?","options":{"A":"Evitar los riesgos eliminando los procesos que generan peligro innecesario.","B":"Combatir los riesgos en su origen antes de que alcancen al trabajador.","C":"Anteponer las medidas de protección individual a la protección colectiva.","D":"Sustituir lo peligroso por elementos que entrañen poco o ningún peligro."},"correct":"C","explanation":"El artículo 15 LPRL exige exactamente lo contrario: anteponer la protección colectiva a la individual, reservando la individual solo para cuando la colectiva resulte insuficiente."},{"id":28,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"Una empresa decide reemplazar un torno manual antiguo que genera altos niveles de ruido por otro de última generación notablemente más silencioso. ¿Con cuál de los principios del artículo 15 LPRL ejemplifica el texto exactamente esta acción?","options":{"A":"Planificar las relaciones sociales dentro del taller mecánico.","B":"Evitar los riesgos desde la elección de máquinas.","C":"Evaluar las secuelas auditivas mediante revisiones anuales periódicas.","D":"Adaptar la duración diaria al nivel de presión sonora."},"correct":"B","explanation":"En el cuadro de los principios de la acción preventiva, el ejemplo explícito de «Evitar los riesgos» es «sustituir máquinas que produzcan ruido por otras más silenciosas»."},{"id":29,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"Un responsable de taller afirma que «adaptar el trabajo a la persona» significa seleccionar únicamente a trabajadores físicamente fuertes para los puestos más exigentes. ¿Por qué es incorrecta su interpretación?","options":{"A":"Porque la normativa exige superar primero un reconocimiento médico reparador antes de firmar el contrato.","B":"Porque ese criterio se circunscribe al mobiliario informático y no a tareas industriales con carga física.","C":"Porque consiste en formar técnicamente al personal seleccionado para que asuma cualquier carga estándar.","D":"Porque significa organizar el trabajo en función de las características individuales de cada persona."},"correct":"D","explanation":"El principio de adaptar el trabajo a la persona busca corregir la práctica habitual de pretender que la persona se adapte al trabajo; exige considerar las características individuales de cada trabajador y organizar el trabajo en función de ellas."},{"id":30,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"En una lavandería industrial se utilizan máquinas que emiten mucho calor y humedad. La dirección decide instalar primero sistemas de extracción localizada y aislamiento térmico en la maquinaria, antes de facilitar ropa especial al personal. ¿Qué lógica legal sigue esta secuencia?","options":{"A":"Cumple el criterio de priorizar el control en origen y colectivo frente a lo individual.","B":"Aplica exclusivamente el deber informativo previo sin alterar las condiciones materiales del espacio laboral.","C":"Demuestra que las prendas personales quedan siempre prohibidas ante cualquier factor térmico ambiental.","D":"Responde a una estrategia clínica rehabilitadora orientada a recuperar capacidades tras la fatiga térmica."},"correct":"A","explanation":"Actuar sobre el foco (aislamiento) y mediante medidas colectivas (extracción) antes de recurrir a medidas individuales sigue el orden jerárquico de los principios del art. 15 LPRL: combatir el riesgo en origen y anteponer la protección colectiva a la individual."},{"id":31,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"Una empresa contrata a una nueva operaria para una línea de montaje sin explicarle cómo detener la cinta en caso de atasco ni qué piezas móviles presentan riesgo de corte. ¿Qué principio de la acción preventiva se ha omitido directamente?","options":{"A":"Tener en cuenta la evolución de la técnica en el diseño de la línea de producción.","B":"Sustituir las materias primas por compuestos de menor toxicidad ambiental.","C":"Dar las debidas instrucciones a los trabajadores sobre equipos y procedimientos.","D":"Aplicar técnicas de psicosociología para mejorar la cohesión del turno de mañana."},"correct":"C","explanation":"Omitir las indicaciones sobre el manejo seguro del equipo y los riesgos concretos del procedimiento incumple el principio de dar instrucciones a los trabajadores para que conozcan en todo momento los riesgos en su lugar, equipos y procedimientos."},{"id":32,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","stem":"¿Cuál de las siguientes decisiones empresariales refleja conjuntamente los principios de «tener en cuenta la evolución de la técnica» y «evitar los riesgos»?","options":{"A":"Reorganizar los turnos nocturnos para repartir la exposición junto a las máquinas antiguas.","B":"Incorporar un brazo robótico actual que suelde en cabina cerrada sin operarios dentro.","C":"Contratar mediciones externas anuales para cuantificar los gases emitidos en la soldadura abierta.","D":"Suministrar pantallas faciales más ligeras manteniendo el mismo procedimiento manual de soldadura abierta."},"correct":"B","explanation":"Aprovechar un avance tecnológico (brazo robótico en cabina cerrada) que elimina la exposición directa del operario al riesgo mientras mejora la eficiencia productiva une los principios de evolución de la técnica y evitación del riesgo."},{"id":33,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En una empresa se producen tropiezos frecuentes en los pasillos, falta de resguardos en las sierras y calzado inadecuado en el almacén. ¿Qué técnica preventiva básica debe aplicarse para eliminar o disminuir estos riesgos?","options":{"A":"La higiene laboral, pues analiza los contaminantes presentes en el ambiente general del almacén.","B":"La psicosociología, pues corrige los despistes originados por la organización del turno rotatorio.","C":"La medicina preventiva, mediante exámenes periódicos de agudeza visual a toda la plantilla.","D":"La seguridad laboral, pues actúa sobre las causas de accidentes en puestos y equipos."},"correct":"D","explanation":"La seguridad en el trabajo es la técnica preventiva que actúa sobre las causas de los riesgos de accidentes laborales (lugares de trabajo, medios de producción y medios de protección personal) para eliminarlas o disminuirlas."},{"id":34,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"¿Sobre qué tres ámbitos concretos interviene la técnica preventiva de seguridad en el trabajo según el documento?","options":{"A":"Los lugares de trabajo, los medios de producción y los medios de protección personal.","B":"Los contaminantes químicos, las posturas forzadas y los conflictos entre mandos y operarios.","C":"Los reconocimientos médicos iniciales, las campañas de vacunación y la rehabilitación funcional.","D":"Las condiciones climáticas externas, la estabilidad contractual y el sistema salarial por objetivos."},"correct":"A","explanation":"El texto especifica que la seguridad en el trabajo actúa sobre: 1) los lugares de trabajo (estructuras, locales, superficies, instalaciones), 2) los medios de producción (protecciones de máquinas, herramientas, materiales) y 3) los medios de protección personal."},{"id":35,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En el apartado «En qué nos equivocamos», Jaime y Valeria trabajan en una fábrica donde se detecta insatisfacción laboral, y les comunican que aplicarán la higiene industrial para resolverla. ¿Por qué es errónea esa decisión?","options":{"A":"Porque la higiene industrial solo interviene después de que el médico laboral diagnostique una lesión física.","B":"Porque la insatisfacción laboral corresponde a la ergonomía cuando el problema se origina en la organización del turno.","C":"Porque la técnica adecuada para evitar la insatisfacción y el desequilibrio emocional es la psicosociología.","D":"Porque la higiene en el trabajo únicamente actúa sobre el diseño de las herramientas y no sobre el ambiente fabril."},"correct":"C","explanation":"Como recoge la tabla de técnicas preventivas básicas, la psicosociología actúa sobre la insatisfacción y el desequilibrio emocional y psicológico, mientras que la higiene en el trabajo previene enfermedades profesionales causadas por agentes físicos, químicos o biológicos."},{"id":36,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"¿Qué característica fundamental distingue a la higiene en el trabajo respecto a la medicina del trabajo?","options":{"A":"La higiene es una especialidad clínica encargada de vacunar al personal y diagnosticar patologías.","B":"La higiene es una técnica no médica que estudia, valora o modifica agentes ambientales.","C":"La higiene actúa tras la baja médica para lograr la rehabilitación progresiva del trabajador.","D":"La higiene se centra en accidentes mecánicos producidos por golpes o cortes en máquinas."},"correct":"B","explanation":"El documento define la higiene en el trabajo como el «conjunto de técnicas no médicas que se ocupan de estudiar, valorar o modificar los agentes físicos, químicos y biológicos presentes en el ambiente laboral para prevenir la aparición de enfermedades profesionales»."},{"id":37,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En un taller de barnizado se sospecha que la concentración de vapores de disolventes es elevada. Siguiendo el orden exacto de actuación de la higiene en el trabajo, ¿cuál es la secuencia correcta?","options":{"A":"Analizar el ambiente, identificar los contaminantes, evaluar frente a los límites de exposición y corregir a valores tolerables.","B":"Evaluar los datos clínicos, identificar la enfermedad profesional, analizar los turnos y corregir la postura de aplicación.","C":"Corregir la ventilación de forma intuitiva, identificar los síntomas médicos, analizar los costes y evaluar la fatiga visual.","D":"Identificar primero las herramientas eléctricas, corregir el horario de barnizado, analizar el ruido y evaluar la motivación."},"correct":"A","explanation":"La higiene en el trabajo actúa siguiendo exactamente cuatro pasos: 1) analiza el ambiente que rodea las condiciones de trabajo, 2) identifica los contaminantes (físicos, químicos y biológicos), 3) evalúa los datos para que no sobrepasen los límites de exposición y 4) corrige esos valores llevándolos a límites tolerables."},{"id":38,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"Tomás teletrabaja como programador informático y desarrolla dolores en muñecas, dedos y columna, además de fatiga visual. ¿Qué técnica preventiva básica debe aplicarse principalmente para corregir su puesto de trabajo?","options":{"A":"La seguridad en el trabajo, mediante la instalación de interruptores diferenciales en su vivienda.","B":"La medicina laboral reparadora, prescribiendo reposo absoluto sin modificar la mesa ni la pantalla.","C":"La higiene industrial, analizando la presencia de agentes biológicos en la habitación del domicilio.","D":"La ergonomía, adaptando las posturas, los movimientos, la pantalla y el mobiliario a la persona."},"correct":"D","explanation":"Los trastornos musculoesqueléticos (muñecas, dedos, columna) y la fatiga derivados de posturas, diseño de equipos y condiciones del puesto (como iluminación o pantalla) se previenen mediante la ergonomía, que adapta el puesto a las características fisiológicas y psicológicas del trabajador."},{"id":39,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"Antonio trabaja en un laboratorio realizando análisis de pruebas PCR para detectar la COVID-19 con jornada de 40 horas repartida en mañana, tarde y noche. ¿Qué dos técnicas preventivas resultan esenciales ante la exposición vírica y la alternancia horaria?","options":{"A":"La seguridad estructural frente a caídas y la medicina rehabilitadora frente a lesiones óseas.","B":"La higiene laboral frente al contaminante y la psicosociología frente a la ordenación horaria.","C":"La seguridad eléctrica sobre equipos de mano y la ergonomía frente a cargas de almacén.","D":"La psicosociología frente al patógeno y la medicina preventiva frente a desplazamientos externos."},"correct":"B","explanation":"Frente a la exposición a un contaminante biológico (SARS-CoV-2 en muestras PCR) actúa la higiene en el trabajo; frente a los efectos de la ordenación del trabajo en tres turnos y la presión laboral actúa la psicosociología (junto con la medicina laboral preventiva)."},{"id":40,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"¿Qué cuatro variables ambientales concretas contempla la ergonomía en la adaptación del ambiente de trabajo para evitar fatiga y mejorar el bienestar del trabajador?","options":{"A":"Presión atmosférica, radiación ionizante, vibraciones sísmicas y densidad de partículas metálicas.","B":"Caudal de aire comprimido, toxicidad química, concentración biológica y conductividad del suelo.","C":"Temperatura, luz, ruido y humedad presentes en el entorno donde se desarrolla la prestación laboral.","D":"Estabilidad del contrato, duración de la pausa, nivel salarial y rotación en la cadena productiva."},"correct":"C","explanation":"El documento señala expresamente que los criterios ergonómicos abarcan tanto la concepción de máquinas para evitar sobreesfuerzos como la adaptación del ambiente de trabajo: temperatura, luz, ruido y humedad."},{"id":41,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"¿Sobre qué tipo de daño laboral específico busca actuar de forma prioritaria la ergonomía según el cuadro resumen de técnicas preventivas básicas?","options":{"A":"La fatiga física o mental derivada del trabajo.","B":"Las enfermedades profesionales por agentes químicos.","C":"Los accidentes laborales por contacto eléctrico directo.","D":"Las pérdidas económicas por paradas de producción."},"correct":"A","explanation":"La tabla «Técnicas preventivas básicas» asocia directamente cada técnica con el riesgo o daño principal sobre el que actúa: Seguridad (accidentes laborales), Higiene (enfermedades profesionales), Ergonomía (fatiga), Psicosociología (insatisfacción) y Medicina laboral (prevención, reparación y rehabilitación)."},{"id":42,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En una empresa de telemarketing se detecta desánimo generalizado, ansiedad por ritmos rígidos de llamadas y escasa implicación de la plantilla. ¿Qué pretende conseguir la psicosociología al intervenir en esta organización?","options":{"A":"Regular la altura de los monitores para suprimir reflejos molestos sobre las pantallas.","B":"Sustituir los auriculares actuales por otros atenuadores frente a niveles de ruido ambiental.","C":"Medir las concentraciones de dióxido de carbono en sala para ajustarlas al límite legal.","D":"Evitar el desequilibrio emocional e insatisfacción, estimulando motivación, participación e integración."},"correct":"D","explanation":"La psicosociología trata de evitar el desequilibrio emocional y psicológico y la insatisfacción laboral originados por la organización del trabajo y las características personales, estimulando además la motivación, participación e integración en los aspectos sociales y humanos de la empresa."},{"id":43,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"Un trabajador sufre una lesión en el hombro tras un accidente laboral y, una vez superadas las curas iniciales, inicia un programa médico destinado a recuperar el mayor grado posible de movilidad en la articulación. ¿Qué vertiente de la medicina del trabajo se está aplicando?","options":{"A":"La vertiente preventiva, centrada en vacunar y reubicar al personal antes de enfermar.","B":"La vertiente reparadora, centrada exclusivamente en prestar los primeros auxilios de urgencia inmediata.","C":"La vertiente rehabilitadora, enfocada en recuperar el mayor grado posible de facultades perdidas.","D":"La vertiente ergonómica, enfocada en rediseñar las herramientas utilizadas en la línea industrial."},"correct":"C","explanation":"La medicina del trabajo actúa en tres vertientes: preventiva (evitar enfermedades mediante vacunas y reconocimientos), reparadora (primeros auxilios, diagnóstico y tratamiento) y rehabilitadora (tratar al enfermo para que recupere el mayor grado posible de sus facultades)."},{"id":44,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En un reconocimiento médico periódico, el médico del trabajo detecta una alergia respiratoria incipiente en una trabajadora de panadería y recomienda asignarle un puesto sin exposición a polvo de harina. ¿Dentro de qué vertiente médica se enmarca esta actuación?","options":{"A":"Vertiente reparadora, porque suministra un tratamiento farmacológico tras declararse la baja laboral.","B":"Vertiente preventiva, porque evita la aparición de la enfermedad asignando un puesto adecuado.","C":"Vertiente rehabilitadora, porque persigue recuperar las facultades pulmonares tras una incapacidad.","D":"Vertiente higiénica, porque identifica y mide la concentración de partículas en el obrador."},"correct":"B","explanation":"La vertiente preventiva de la medicina laboral intenta evitar la aparición de enfermedades a través de vacunaciones y reconocimientos médicos, asignando a los trabajadores puestos adecuados a sus características si presentan alguna anomalía que les perjudique en determinados trabajos."},{"id":45,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En la tabla del caso práctico final, aparecen situaciones como «máquina esmeriladora sin parada de emergencia», «radial sin marcado CE», «escaleras sin barandilla» y «suelo resbaladizo». ¿Qué técnica preventiva básica corresponde a todas ellas?","options":{"A":"La seguridad laboral, por incidir sobre accidentes en lugares y equipos.","B":"La higiene laboral, por exigir mediciones ambientales de partículas junto a máquinas.","C":"La ergonomía laboral, por ocasionar fatiga física derivada de posturas repetitivas.","D":"La psicosociología laboral, por provocar desmotivación ante equipos en mal estado."},"correct":"A","explanation":"Todas las situaciones descritas (ausencia de parada de emergencia, falta de marcado CE en radial, escaleras sin barandilla y suelo resbaladizo) constituyen causas directas de accidentes laborales en lugares de trabajo y medios de producción, ámbito propio de la seguridad en el trabajo."},{"id":46,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En la misma tabla de situaciones prácticas se incluye «enfermedad profesional por amianto» y «existencia de contaminante ambiental». ¿Qué técnica preventiva básica debe intervenir para controlar ambos supuestos?","options":{"A":"La medicina rehabilitadora para sustituir el amianto del ambiente del taller.","B":"La seguridad en el trabajo para evitar atrapamientos durante el uso de máquinas.","C":"La psicosociología aplicada para mejorar la integración social de los operarios.","D":"La higiene en el trabajo para identificar, evaluar y corregir los contaminantes."},"correct":"D","explanation":"El amianto y los contaminantes ambientales generan enfermedades profesionales a través del ambiente laboral; su estudio, valoración y corrección hasta límites tolerables corresponde a la higiene en el trabajo."},{"id":47,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"Un empleado sufre un corte profundo con una herramienta manual en el taller y recibe de inmediato las primeras curas sanitarias en la enfermería de la empresa. ¿Qué vertiente de la medicina del trabajo está actuando en ese momento?","options":{"A":"La vertiente preventiva, destinada a evitar enfermedades mediante vacunaciones y reconocimientos.","B":"La vertiente reparadora, encargada de devolver la salud ante accidentes o enfermedades.","C":"La vertiente rehabilitadora, enfocada en recuperar las facultades físicas tras el alta médica.","D":"La vertiente higiénica, centrada en valorar los agentes físicos presentes en el taller."},"correct":"B","explanation":"La vertiente reparadora de la medicina del trabajo trata de devolver la salud prestando los auxilios necesarios para las primeras curas ante accidentes o realizando el diagnóstico y tratamiento frente a enfermedades profesionales y relacionadas con el trabajo."},{"id":48,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En una oficina administrativa, varios empleados sufren fatiga visual por reflejos en la pantalla del ordenador y presentan lesiones musculoesqueléticas por el diseño del mobiliario. ¿Qué técnica preventiva aborda ambas problemáticas?","options":{"A":"La medicina laboral preventiva mediante análisis oftalmológicos y traumatológicos anuales.","B":"La seguridad en el trabajo revisando las condiciones eléctricas de los puestos informáticos.","C":"La ergonomía adaptando las condiciones de luz, equipos y posturas al trabajador.","D":"La higiene industrial evaluando los contaminantes físicos presentes en la sala de oficinas."},"correct":"C","explanation":"Tanto los deslumbramientos al utilizar el ordenador (adaptación de la luz en el ambiente de trabajo y pantallas) como las lesiones musculoesqueléticas por posturas y mobiliario inadecuado se abordan desde la ergonomía."},{"id":49,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En el apartado de casos prácticos del documento, se plantea la situación de «falta de conocimiento de rol en el puesto de trabajo» y «falta de motivación en el trabajo». ¿Qué técnica preventiva debe utilizar la empresa para afrontarlas?","options":{"A":"La seguridad en el trabajo, revisando las instrucciones de manejo de las máquinas.","B":"La medicina del trabajo, aplicando reconocimientos previos de aptitud física.","C":"La higiene en el trabajo, evaluando el ambiente físico de las salas de reuniones.","D":"La psicosociología, mejorando la ordenación del trabajo, la motivación e integración."},"correct":"D","explanation":"La indefinición de rol y la falta de motivación están vinculadas a la organización y ordenación del trabajo y pueden generar insatisfacción o desequilibrio psicológico, siendo objeto directo de la psicosociología."},{"id":50,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"Cuando una empresa realiza un reconocimiento médico a un trabajador por cambio de puesto de trabajo para comprobar que sus características físicas son compatibles con las nuevas tareas, ¿qué técnica preventiva y vertiente aplica?","options":{"A":"Medicina del trabajo en su vertiente preventiva.","B":"Higiene en el trabajo en su fase de evaluación biológica.","C":"Ergonomía en su función de diseño de puestos administrativos.","D":"Seguridad en el trabajo sobre medios de protección personal."},"correct":"A","explanation":"Los reconocimientos médicos orientados a evitar la aparición de enfermedades y asignar a los trabajadores puestos adecuados a sus características forman parte de la medicina del trabajo en su vertiente preventiva."},{"id":51,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"Laura trabaja como community manager pasando la mayor parte de la jornada frente al ordenador. Además de disponer de una silla ergonómica, ¿qué propósito general persiguen los criterios ergonómicos aplicados a su puesto?","options":{"A":"Prevenir enfermedades infecciosas mediante el control de agentes ambientales en oficina.","B":"Lograr el bienestar físico, mental y social para que la prestación laboral sea confortable.","C":"Diagnosticar de forma precoz anomalías musculares mediante reconocimientos médicos anuales.","D":"Eliminar los riesgos eléctricos derivados del uso simultáneo de varios equipos informáticos."},"correct":"B","explanation":"Según el documento, los criterios ergonómicos repercuten en el bienestar físico, mental y social de los trabajadores para conseguir que la prestación laboral sea más confortable, evitando sobreesfuerzos y adaptando el puesto y el ambiente a la persona."},{"id":52,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En el caso del teletrabajo analizado en el documento, se señala que la ergonomía y la psicosociología cobran especial relevancia. ¿Qué combinación de riesgos intentan eliminar respectivamente estas dos técnicas en el trabajo a distancia?","options":{"A":"El contacto eléctrico directo doméstico y las infecciones víricas estacionales de oficina.","B":"La exposición a ruido industrial continuo y la ausencia de marcado europeo.","C":"La fatiga postural o visual y el aislamiento o estrés organizativo.","D":"La caída de objetos desde altura y la inhalación de partículas metálicas."},"correct":"C","explanation":"En el teletrabajo, la ergonomía previene la fatiga física y visual (mobiliario, postura, pantalla, iluminación) mientras que la psicosociología previene el desequilibrio emocional, el estrés, la desmotivación o la insatisfacción derivados de la organización del trabajo a distancia."},{"id":53,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"Si un técnico higienista ha analizado el ambiente de un taller de carpintería y ha identificado presencia de polvo de madera en suspensión, ¿qué paso inmediato debe ejecutar antes de aplicar las medidas correctoras?","options":{"A":"Evaluar los datos medidos para comprobar si se sobrepasan los valores límites de exposición.","B":"Entregar directamente mascarillas filtrantes de categoría I sin medir la concentración ambiental.","C":"Modificar la altura de los bancos de trabajo para corregir las posturas forzadas de los carpinteros.","D":"Elaborar un cuestionario de satisfacción laboral para detectar desequilibrios psicológicos."},"correct":"A","explanation":"En la secuencia de cuatro pasos de la higiene en el trabajo, tras analizar el ambiente (1) e identificar los contaminantes (2), el paso siguiente es evaluar los datos obtenidos para detectar que no se sobrepasen los valores que actúan como límites de exposición (3), antes de corregirlos (4)."},{"id":54,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"En la tabla del documento sobre seguridad en el trabajo se indica que esta técnica controla «la ropa de trabajo y protección de cabeza, cara, ojos, oídos, extremidades superiores e inferiores y aparato respiratorio». ¿En cuál de sus tres líneas de actuación se encuadra este control?","options":{"A":"Sobre las estructuras y superficies de los lugares de trabajo.","B":"Sobre la conservación preventiva de los medios de producción.","C":"Sobre la vertiente clínica reparadora de los accidentes graves.","D":"Sobre los medios de protección personal utilizados por la plantilla."},"correct":"D","explanation":"La seguridad en el trabajo actúa en tres frentes: lugares de trabajo, medios de producción y medios de protección personal; el control de la ropa de trabajo y las protecciones de las distintas partes del cuerpo corresponde expresamente a los medios de protección personal."},{"id":55,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"Jorge trabaja en CASA, SA probando motores de avión Airbus y con el tiempo ha sufrido una pérdida de capacidad auditiva. ¿Qué técnica preventiva básica debió aplicarse sobre el ruido ambiental del puesto para evitar esta enfermedad profesional?","options":{"A":"La psicosociología laboral, reorganizando los descansos para mejorar el clima de equipo.","B":"La higiene laboral, evaluando el ruido físico para reducirlo a límites tolerables.","C":"La medicina rehabilitadora, mediante sesiones auditivas posteriores a la pérdida de capacidad.","D":"La seguridad mecánica, instalando un interruptor diferencial en los bancos de motores."},"correct":"B","explanation":"El ruido considerado como agente físico presente en el ambiente laboral que puede originar una enfermedad profesional (pérdida auditiva progresiva) es objeto de la higiene en el trabajo, que analiza, identifica, evalúa frente a límites y corrige el contaminante físico."},{"id":56,"topicId":"t2","topic":"2. Medidas de prevención","subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","stem":"Un responsable de prevención sostiene que la ergonomía consiste en «entrenar al trabajador para que soporte sin fatigarse las máquinas diseñadas por ingeniería». ¿Qué principio esencial de la ergonomía desmiente esta afirmación?","options":{"A":"La ergonomía estudia exclusivamente agentes químicos y biológicos para evitar intoxicaciones agudas.","B":"La ergonomía se ocupa únicamente de los primeros auxilios médicos cuando aparece el cansancio muscular.","C":"La ergonomía adapta el puesto, las máquinas y las herramientas a la persona, y no la persona al puesto.","D":"La ergonomía interviene solamente en puestos administrativos informatizados y nunca en el sector industrial."},"correct":"C","explanation":"El documento subraya expresamente que la ergonomía diseña máquinas y herramientas y estudia posturas y movimientos «proponiendo medidas para adaptar el puesto a la persona y no la persona al puesto»."},{"id":57,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"¿En qué momento respecto a la posible ocurrencia del riesgo se implementan las técnicas de protección, y con qué finalidad general?","options":{"A":"Con carácter posterior al accidente, para cuantificar las indemnizaciones y reubicar al operario.","B":"Durante la fase de rehabilitación médica, para favorecer la pronta reincorporación al puesto.","C":"Tras detectarse una enfermedad profesional, para suplir la ausencia de evaluación inicial.","D":"Con carácter previo a la materialización del riesgo, para eliminar o minimizar sus consecuencias."},"correct":"D","explanation":"Las técnicas de protección se implementan con carácter previo a la materialización del riesgo al que se hallan expuestos los trabajadores, tratando de eliminar o minimizar sus consecuencias (accidentes o enfermedades profesionales)."},{"id":58,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"Si clasificamos las técnicas de protección según el tipo de daño que tratan de evitar o reducir, ¿qué dos grandes categorías distingue el documento?","options":{"A":"Protecciones de seguridad frente a accidentes y de higiene frente a enfermedades profesionales.","B":"Protecciones ergonómicas frente a turnos rotatorios y psicosociales frente a conflictos laborales.","C":"Protecciones estructurales de carácter fijo y sanitarias para el tratamiento de lesiones graves.","D":"Protecciones administrativas de tipo documental y médicas para el diagnóstico clínico temprano."},"correct":"A","explanation":"El documento señala que las medidas de protección pueden clasificarse según el número de trabajadores protegidos (colectivas e individuales) o según el daño que tratan de evitar o reducir: protecciones de seguridad (frente a accidentes de trabajo) y protecciones en higiene industrial o del trabajo (frente a enfermedades profesionales)."},{"id":59,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En una reforma de fachada con andamios («En qué nos equivocamos»), la empresa decide que basta con entregar arneses a los operarios porque «los EPI son prioritarios frente a las medidas colectivas». ¿Cuál es la regla correcta según el art. 15 LPRL?","options":{"A":"Ambos sistemas tienen idéntica jerarquía legal y la empresa puede optar por el más viable.","B":"La protección colectiva es prioritaria; la individual solo se usa si resulta insuficiente.","C":"La protección individual es prioritaria en altura y la colectiva se reserva para planta baja.","D":"Al instalar andamios homologados debe sustituirse toda barandilla por el uso de arnés."},"correct":"B","explanation":"El art. 15 LPRL establece el principio de anteponer la protección colectiva a la individual. La protección individual solo debe utilizarse cuando la colectiva sea insuficiente para eliminar el riesgo y para complementarla."},{"id":60,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"¿Qué diferencia funcional destaca el esquema comparativo del tema entre las protecciones colectivas y las protecciones individuales?","options":{"A":"Las colectivas actúan sobre riesgos biológicos y las individuales cubren exclusivamente contactos eléctricos.","B":"Las colectivas suprimen toda señalización obligatoria y las individuales exigen examen médico previo.","C":"Las colectivas protegen a varios reduciendo accidentes y las individuales a uno reduciendo daños.","D":"Las colectivas rigen en oficinas cerradas y las individuales en obras públicas exteriores."},"correct":"C","explanation":"Según el esquema «Técnicas de protección», las colectivas protegen a una pluralidad de trabajadores frente a un mismo riesgo y disminuyen la probabilidad de que se materialice el riesgo (accidente), mientras que las individuales protegen a un solo trabajador y disminuyen las consecuencias del daño."},{"id":61,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En una obra de construcción con forjados abiertos en varias plantas, ¿qué dos medidas colectivas específicas sirven respectivamente para evitar la caída desde un borde elevado y para minimizar los efectos si un operario llega a caer al vacío?","options":{"A":"El vallado perimetral exterior y las campanas extractoras portátiles.","B":"Los resguardos mecánicos de obra y los interruptores diferenciales de planta.","C":"Las pantallas de absorción acústica y las barreras de protección térmica.","D":"Las barandillas perimetrales resistentes y las redes de seguridad en los forjados."},"correct":"D","explanation":"Las barandillas son sistemas de protección colectiva contra riesgo de caída de altura; las redes de seguridad se disponen en los perímetros de los forjados en las obras con el fin de minimizar los efectos de una posible caída accidental."},{"id":62,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"Para que una barandilla instalada en una plataforma elevada cumpla los requisitos indicados en el documento, ¿qué condiciones constructivas debe reunir?","options":{"A":"Ser resistente, tener una altura mínima de 90 cm y contar con un reborde inferior para evitar caída de objetos.","B":"Tener una altura máxima de 75 cm, estar pintada de color azul y carecer de rodapié para facilitar la limpieza.","C":"Alcanzar los 150 cm de altura, fabricarse únicamente en madera ligera y colocarse solo en la primera planta.","D":"Ser desmontable sin sujeción fija, medir 80 cm de altura y acompañarse de una señal triangular amarilla."},"correct":"A","explanation":"El texto establece que las barandillas deberán ser resistentes, tendrán una altura mínima de 90 cm y dispondrán de un reborde de protección en la parte inferior para evitar la caída de objetos a las plantas inferiores."},{"id":63,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En la primera planta de un edificio en construcción transitan operarios para acceder a los ascensores de obra. ¿Qué medida de protección colectiva debe instalarse en esa primera planta para protegerlos de objetos o materiales caídos desde pisos superiores?","options":{"A":"Interruptores diferenciales en los cuadros generales de distribución.","B":"Marquesinas o viseras dispuestas en la primera planta de la obra.","C":"Resguardos fijos acoplados a las herramientas eléctricas de mano.","D":"Vallado perimetral exclusivamente en los bordes de la última cubierta."},"correct":"B","explanation":"El documento define expresamente las marquesinas o viseras como medidas de protección colectiva que se disponen en la primera planta de las obras y protegen a los trabajadores del riesgo de caída de objetos y materiales."},{"id":64,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"Un trabajador toca accidentalmente la carcasa metálica de una hormigonera con un fallo de aislamiento. ¿Qué dispositivo de protección colectiva instalado en la instalación eléctrica actúa cortando de inmediato el paso de la corriente?","options":{"A":"El resguardo fijo de la tolva mezcladora.","B":"La barrera térmica del cuadro de maniobra.","C":"El interruptor diferencial de la instalación eléctrica.","D":"La señal óptica intermitente de advertencia eléctrica."},"correct":"C","explanation":"Los interruptores diferenciales son dispositivos de seguridad introducidos en las instalaciones eléctricas cuya función es cortar el paso de la corriente cuando una persona sufre un contacto directo o indirecto."},{"id":65,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En un taller metalúrgico, una prensa dispone de una cubierta metálica fija que impide físicamente que las manos del operario alcancen la zona de troquelado mientras está en funcionamiento. ¿Cómo se denomina esta protección colectiva?","options":{"A":"Interruptor diferencial de máquina.","B":"Barrera de protección térmica.","C":"Visera de retención mecánica.","D":"Resguardo de la máquina."},"correct":"D","explanation":"Los resguardos son componentes o dispositivos que se añaden a una máquina y actúan como barrera material impidiendo que los usuarios alcancen las partes peligrosas, evitando golpes, atrapamientos o cortes."},{"id":66,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En el apartado «Ponte a prueba» del texto se pregunta cómo se clasifican los resguardos que se instalan en las máquinas frente al riesgo de atrapamiento. ¿Cuál es la respuesta exacta?","options":{"A":"Equipos de protección individual de categoría III por su gravedad.","B":"Medidas de prevención colectiva instaladas en el entorno de la máquina.","C":"Medidas de protección individual integradas en la ropa del operario.","D":"Dispositivos de señalización óptica para delimitar zonas de peligro."},"correct":"B","explanation":"Tanto en la sección 3.1 (listado de medidas de protección colectivas) como en el cuestionario del tema, los resguardos añadidos a las máquinas frente a atrapamientos forman parte de las medidas de protección/prevención colectiva (protegen a cualquier operario que utilice la máquina frente a partes peligrosas)."},{"id":67,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En una nave de soldadura de piezas con recubrimientos químicos se generan humos tóxicos en las mesas de trabajo. ¿Qué medida de protección colectiva resulta más eficaz para captar el contaminante antes de que se disperse por toda la nave?","options":{"A":"Campanas extractoras instaladas próximas a los focos de emisión.","B":"Pantallas de absorción acústica colocadas en el techo del local.","C":"Barreras de protección térmica en el pasillo central de acceso.","D":"Señales triangulares de advertencia tóxica en la puerta de entrada."},"correct":"A","explanation":"Las campanas extractoras se instalan próximas al lugar de los focos de emisión de los contaminantes, captándolos en su punto de origen y evitando la toxicidad para el conjunto de trabajadores."},{"id":68,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En una nave industrial muy ruidosa donde trabajan quince operarios, además de actuar sobre las máquinas, la dirección instala paneles especiales entre las zonas de producción para atenuar la propagación del sonido. ¿Qué medida colectiva emplea?","options":{"A":"Interruptores diferenciales acústicos en la red de alimentación.","B":"Resguardos fijos acoplados a la estructura de los pilares centrales.","C":"Pantallas de absorción acústica para reducir los niveles de ruido.","D":"Campanas extractoras diseñadas para absorber ondas de presión sonora."},"correct":"C","explanation":"Las pantallas de absorción acústica tienen por objetivo reducir al máximo posible los niveles de ruido o proteger a los trabajadores frente a sus efectos lesivos."},{"id":69,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En una fundición cercana a hornos de alta temperatura se colocan pantallas aislantes que mantienen una temperatura adecuada en los puestos contiguos. ¿A qué tipo de protección colectiva corresponde esta solución?","options":{"A":"Campanas extractoras de gases calientes.","B":"Marquesinas de contención estructural.","C":"Resguardos mecánicos de seguridad móvil.","D":"Barreras de protección térmica para la salud."},"correct":"D","explanation":"Las barreras de protección térmica proporcionan una temperatura adecuada para poder desarrollar las actividades laborales sin poner en peligro la salud de los trabajadores."},{"id":70,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"Mariano trabaja en un centro con desniveles importantes en los pasillos del primer piso. El director decide únicamente colocar una señal de peligro de caída en lugar de nivelar el suelo o instalar rampas y barandillas. ¿Por qué no tiene razón el director?","options":{"A":"Porque en los desniveles interiores se exige primero un estudio ergonómico antes de colocar paneles.","B":"Porque la señalización nunca sustituye a las medidas técnicas u organizativas de protección colectiva.","C":"Porque las señales triangulares de advertencia requieren además un sistema luminoso intermitente continuo.","D":"Porque los desniveles estructurales solo pueden afrontarse mediante equipos individuales de categoría II."},"correct":"B","explanation":"Como indica el apartado 3.1, la señalización de los riesgos nunca deberá considerarse una medida sustitutiva de las medidas técnicas y organizativas de protección colectiva, y deberá utilizarse solo cuando mediante estas últimas no haya sido posible eliminar o reducir suficientemente los riesgos."},{"id":71,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En una zona urbana se ejecuta la excavación de una zanja profunda junto a una acera y un área de paso de trabajadores. ¿Qué medida colectiva habitual en obras de construcción debe emplearse para delimitar e impedir la caída al hueco?","options":{"A":"El vallado perimetral cerrado de ese espacio de trabajo.","B":"La instalación de marquesinas fijas en el fondo de zanja.","C":"La colocación de pantallas acústicas rodeando toda la excavadora.","D":"La entrega de guantes aislantes y cascos junto al acceso."},"correct":"A","explanation":"El documento describe el vallado perimetral de espacios de trabajo como la medida de protección colectiva más usual en zonas de obras de construcción para aislar las zonas peligrosas."},{"id":72,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"Si una empresa adquiere resguardos para sus sierras de cinta y además instala un sistema de ventilación localizada para el polvo, ¿cuál de los dos elementos protege frente a accidentes de trabajo y cuál frente a enfermedades profesionales?","options":{"A":"La ventilación evita accidentes laborales y el resguardo previene enfermedades del trabajo.","B":"Ambos sistemas evitan exclusivamente enfermedades profesionales derivadas de posturas forzadas.","C":"El resguardo protege frente a accidentes y la ventilación frente a enfermedades.","D":"Ambos elementos constituyen equipos individuales regulados por el decreto sobre protección."},"correct":"C","explanation":"Según la clasificación del apartado 3, las protecciones se dividen en protecciones de seguridad (frente a accidentes de trabajo, como el resguardo contra cortes) y protecciones en higiene industrial o del trabajo (frente a enfermedades profesionales, como la ventilación contra polvo nocivo)."},{"id":73,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"¿En qué supuesto resulta legítimo emplear la señalización dentro de una estrategia de protección colectiva en la empresa?","options":{"A":"Cuando la evaluación inicial de riesgos demuestra que la plantilla conoce ya los procedimientos de trabajo.","B":"Cuando se instalen paneles ópticos normalizados con forma geométrica visible para trabajadores daltónicos.","C":"Cuando el riesgo derive de zonas de paso provisionales durante obras de corta duración en el centro.","D":"Cuando mediante medidas técnicas y organizativas no haya sido posible eliminar o reducir bastante el riesgo."},"correct":"D","explanation":"La señalización no puede sustituir a las medidas técnicas y organizativas de protección colectiva; únicamente debe emplearse cuando mediante ellas no haya sido posible eliminar los riesgos o haberlos reducido suficientemente."},{"id":74,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"Al revisar una obra, un inspector comprueba que las barandillas del forjado tienen 95 cm de altura y soportan bien la presión, pero carecen del rodapié o reborde inferior. ¿Qué riesgo específico queda sin cubrir por esa carencia?","options":{"A":"El contacto eléctrico indirecto de los trabajadores con el andamio metálico.","B":"La caída accidental de herramientas u objetos desde ese nivel a plantas inferiores.","C":"La superación de los valores límite de exposición acústica durante el hormigonado.","D":"La inhalación de gases tóxicos acumulados en el perímetro de la primera planta."},"correct":"B","explanation":"El texto precisa que las barandillas tendrán una altura mínima de 90 cm y dispondrán de un reborde de protección en la parte inferior precisamente para evitar la caída de objetos a las plantas inferiores."},{"id":75,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"En la empresa CASA, SA, donde Jorge realiza pruebas de motores de avión y sufrió daño en el oído, ¿qué medida de protección colectiva debería haberse priorizado antes de entregar únicamente protectores individuales?","options":{"A":"Pantallas de absorción acústica que atenúen el nivel sonoro del recinto.","B":"Campanas extractoras de gases instaladas sobre la bancada de los motores.","C":"Barreras de protección térmica que aíslen el calor desprendido en las pruebas.","D":"Señalización óptica intermitente indicando zona obligatoria de protección personal."},"correct":"A","explanation":"Ante el ruido generado por los motores, se deben anteponer medidas colectivas como las pantallas de absorción acústica (además de medidas preventivas sobre el foco), recurriendo a los protectores auditivos individuales (auriculares/tapones) cuando las colectivas no basten para eliminar el riesgo."},{"id":76,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","stem":"Una empresa decide utilizar conjuntamente una red de seguridad en el perímetro de obra y, para los operarios que trabajan en el borde del tejado sin barandilla posible, un arnés de sujeción. ¿Cómo justifica la normativa esta combinación?","options":{"A":"La red es una medida individual de categoría I y el arnés una protección colectiva estructural.","B":"El arnés sustituye permanentemente a cualquier protección colectiva cuando la obra supera una altura.","C":"La protección individual complementa a la colectiva cuando esta resulta insuficiente ante un riesgo residual.","D":"Ambas medidas tienen carácter exclusivamente informativo para señalizar la zona de caída en altura."},"correct":"C","explanation":"Conforme al art. 15 LPRL y el apartado 3.1, la protección individual solo deberá utilizarse cuando la protección colectiva sea insuficiente y para complementarla."},{"id":77,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Según el Real Decreto 773/1997, de 30 de mayo, ¿qué comprende exactamente la definición legal de equipo de protección individual (EPI)?","options":{"A":"Toda prenda utilizada de manera habitual por varios trabajadores en distintos turnos para mantener la uniformidad corporativa.","B":"Cualquier aparato portátil destinado a detectar y señalar la presencia de gases peligrosos antes de entrar en un recinto.","C":"Todo dispositivo fijo acoplado permanentemente a una máquina para impedir que el usuario alcance las zonas móviles.","D":"Cualquier equipo llevado o sujetado por el trabajador para protegerle de riesgos, así como sus complementos o accesorios."},"correct":"D","explanation":"El RD 773/1997 define el EPI como «cualquier equipo destinado a ser llevado o sujetado por el trabajador para que le proteja de uno o varios riesgos que puedan amenazar su seguridad o su salud, así como cualquier complemento o accesorio destinado a tal fin»."},{"id":78,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Lucía sale siempre de su trabajo a las seis de la madrugada y lleva un espray de pimienta en el bolso para defenderse ante un posible ataque en la calle, pensando que es un EPI. ¿Por qué está equivocada?","options":{"A":"Porque solo tendría la consideración de EPI si se tratara de un equipo de categoría II con certificado europeo.","B":"Porque el material de autodefensa o disuasión está expresamente excluido de la consideración legal de EPI.","C":"Porque los dispositivos químicos únicamente se consideran EPI cuando protegen frente a riesgos biológicos.","D":"Porque los EPI nocturnos solo corresponden a los trabajadores contratados mediante empresas de trabajo temporal."},"correct":"B","explanation":"Entre las seis exclusiones legales del documento figura explícitamente «el material de deporte, de autodefensa o de disuasión (por ejemplo: arnés de alpinista o espráis irritantes)», por lo que no se consideran EPI."},{"id":79,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Un técnico de mantenimiento entra en una galería subterránea portando un medidor portátil de CO₂ que avisa acústicamente si la concentración sube. Según el RD 773/1997, ¿es este aparato un equipo de protección individual?","options":{"A":"Sí, porque lo lleva sujetado el trabajador para advertirle de un riesgo ambiental grave.","B":"Sí, porque protege las vías respiratorias frente a sustancias químicas e incendios.","C":"No, porque los equipos portátiles destinados a detectar y señalar riesgos quedan excluidos.","D":"No, porque solo los dispositivos fijos instalados en pared alcanzan la categoría III."},"correct":"C","explanation":"El documento enumera expresamente en el punto 6 de exclusiones que «los aparatos portátiles para la detección y señalización de los riesgos (por ejemplo: detectores de CO₂)» no se consideran EPI."},{"id":80,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"En una empresa de reparto por carretera, un conductor afirma que el cinturón de seguridad de la furgoneta es su EPI principal, mientras que un empleado de correos considera EPI su uniforme corporativo azul. ¿Qué ocurre con ambos elementos según la normativa?","options":{"A":"Ninguno se considera EPI al excluirse los de transporte vial y ropa corriente.","B":"Solo el cinturón alcanza la categoría III, quedando el uniforme corporativo totalmente excluido.","C":"Ambos reciben la consideración de EPI si incorporan logotipo empresarial y marcado europeo.","D":"Solo el uniforme cuenta como EPI cuando protege la comodidad térmica del trabajador."},"correct":"A","explanation":"Tanto la ropa de trabajo corriente y uniformes que no protegen la salud o integridad física (punto 1) como los equipos de protección individual de los medios de transporte por carretera, como el cinturón de seguridad (punto 4), están expresamente excluidos de la definición de EPI."},{"id":81,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"¿Cuál de los siguientes equipos utilizados en el desempeño de una actividad SÍ tiene la consideración legal de equipo de protección individual (EPI) conforme al documento?","options":{"A":"Un chaleco salvavidas asignado a miembros de equipos de socorro y salvamento.","B":"Unas orejeras utilizadas por un operario en salas con alto ruido industrial.","C":"Un arnés de alpinista utilizado durante una escalada deportiva en alta montaña.","D":"Un chaleco antibalas reglamentario asignado a cuerpos policiales de orden público."},"correct":"B","explanation":"Las orejeras o auriculares para proteger frente al ruido laboral sí son EPI. En cambio, los chalecos salvavidas de servicios de socorro (punto 2), el material deportivo como el arnés de alpinista (punto 5) y los equipos de policías/militares (punto 3) están excluidos."},{"id":82,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"En una empresa de reformas, el encargado exige a los nuevos albañiles que compren sus propias botas de seguridad y promete reembolsarles la mitad del importe al acabar el año. ¿Qué obligación empresarial infringe?","options":{"A":"La obligación de aportar las botas con un reembolso íntegro dentro del primer trimestre del contrato.","B":"La obligación de asumir el coste completo únicamente para los equipos clasificados en la categoría III.","C":"La obligación de financiar al cincuenta por ciento el calzado estándar cuando no haya marcado europeo.","D":"La obligación de suministrar de forma gratuita los equipos de protección individual a los trabajadores."},"correct":"D","explanation":"Entre las obligaciones del empresario en materia de EPI figura expresamente «suministrar de forma gratuita dichos equipos a sus trabajadores». Nunca puede cobrarse al trabajador el coste de su EPI."},{"id":83,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Un trabajador que realiza tareas en altura requiere utilizar simultáneamente arnés anticaídas, casco con barboquejo, gafas y mascarilla filtrante. ¿Qué obligación específica tiene el empresario en este caso complejo?","options":{"A":"Limitarse a entregar por escrito el catálogo comercial de cada fabricante sin probar el ajuste conjunto.","B":"Permitir que el operario elija solo dos de los cuatro equipos para evitar molestias anatómicas.","C":"Proporcionar sesiones de entrenamiento práctico cuando el uso simultáneo de varios EPI sea complejo.","D":"Trasladar la responsabilidad de comprobar la compatibilidad de los equipos al propio trabajador."},"correct":"C","explanation":"El empresario debe proporcionar formación e información necesarias, «incluso en sesiones de entrenamiento práctico, cuando se precise la utilización simultánea de varios equipos o cuando, por ser especialmente complejos, se haga necesario». Además, los EPI simultáneos deben ser compatibles entre sí."},{"id":84,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Al finalizar su turno, un carpintero nota que la visera de su pantalla protectora tiene una grieta que reduce la protección ocular. Según sus obligaciones como trabajador, ¿qué debe hacer?","options":{"A":"Informar inmediatamente a su superior jerárquico directo de cualquier defecto que reduzca su eficacia.","B":"Anotar la incidencia en el parte mensual del taller y seguir usándola hasta recibir repuesto.","C":"Guardar la pantalla en el armario de equipos fuera de servicio sin comunicarlo al encargado.","D":"Sustituir la pantalla por unas gafas de seguridad estándar disponibles en otro departamento vecino."},"correct":"A","explanation":"El trabajador debe utilizar y cuidar los EPI, colocarlos en el lugar indicado tras usarlos e «informar inmediatamente a su superior jerárquico directo de cualquier defecto, anomalía o daño apreciado en el EPI utilizado que, a su juicio, pueda entrañar una pérdida de su eficacia protectora»."},{"id":85,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Respecto a las obligaciones del trabajador en relación con sus equipos de protección individual, ¿cuál de las siguientes conductas cumple íntegramente con la normativa descrita?","options":{"A":"Elegir el modelo comercial del equipo y realizar su mantenimiento técnico especializado en casa.","B":"Ajustar los elementos dañados por cuenta propia para prolongar la vida útil del equipo asignado.","C":"Cuidar correctamente el EPI, colocarlo en el lugar indicado y avisar de anomalías.","D":"Entregar el equipo al compañero del turno siguiente tras limpiarlo al acabar la jornada."},"correct":"C","explanation":"Las tres obligaciones del trabajador respecto a los EPI son: utilizar y cuidar correctamente los equipos conforme a formación e instrucciones, colocar el EPI después de su utilización en el lugar indicado para ello e informar inmediatamente a su superior de cualquier defecto, anomalía o daño."},{"id":86,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Unos guantes de protección frente a sustancias corrosivas ofrecen una barrera excelente contra el ácido, pero provocan una reacción alérgica severa en la piel del usuario por los materiales con que están fabricados. ¿Qué característica básica de los EPI incumplen?","options":{"A":"Eficacia, porque no protegen frente al agente químico principal del puesto.","B":"Ergonomía, porque su talla impide sujetar herramientas de precisión.","C":"Compatibilidad, porque interfieren con la mascarilla utilizada en el laboratorio.","D":"Inocuidad, porque ocasionan por sí mismos riesgos adicionales al trabajador."},"correct":"D","explanation":"Los EPI deben ser eficaces (adecuados al riesgo), ergonómicos (adaptados para trabajar con comodidad) e inocuos, es decir, no ocasionar por sí mismos riesgos adicionales ni molestias innecesarias al trabajador."},{"id":87,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"¿Qué significan conjuntamente las tres características esenciales recogidas en la tabla de características de los EPI (eficaces, inocuos y ergonómicos)?","options":{"A":"Que son adecuados al riesgo, no generan riesgos adicionales y se adaptan permitiendo trabajar con comodidad.","B":"Que duran más de cinco años, llevan certificado de categoría I y sirven para cualquier trabajador del centro.","C":"Que sustituyen las medidas colectivas, tienen color de seguridad y pueden lavarse en domicilio propio.","D":"Que eliminan el riesgo en su origen, evitan el reconocimiento médico y se entregan al finalizar el periodo de prueba."},"correct":"A","explanation":"La tabla «Características de los EPI» define: Eficaces (adecuados al riesgo que protegen), Inocuos (sin riesgo para el trabajador) y Ergonómicos (se adaptan al usuario y permiten trabajar con comodidad)."},{"id":88,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Un operario necesita acoplar gafas de protección contra impactos y mascarilla respiratoria en una misma tarea, pero la montura de la mascarilla levanta las gafas dejando huecos laterales peligrosos. ¿Qué precepto de los EPI se está vulnerando?","options":{"A":"El requisito de que ambos equipos pertenezcan a la categoría III con certificado de organismo autorizado.","B":"La exigencia de compatibilidad para mantener su eficacia cuando se emplean varios equipos juntos.","C":"La obligación de alternar el uso de ambos equipos en tramos horarios distintos sin superponerlos.","D":"El criterio de que las gafas mecánicas deben llevar banda roja cuando se usan con respiradores."},"correct":"B","explanation":"Entre los preceptos de los EPI figura expresamente: «si se utilizan varios EPI simultáneamente, deberán ser compatibles entre sí y mantener la eficacia que tienen por separado»."},{"id":89,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"De acuerdo con el cuadro «Categorías de los EPI» incluido en el documento, ¿qué caracteriza a los equipos clasificados en la Categoría I?","options":{"A":"Protegen contra riesgos mínimos y pueden comercializarse sin necesidad de marcado CE, como unos guantes de jardinería.","B":"Protegen contra riesgos intermedios y requieren obligatoriamente un certificado CE, como el calzado de seguridad.","C":"Protegen contra riesgos graves o mortales y exigen certificación por organismo autorizado, como el arnés.","D":"Protegen exclusivamente contra riesgos eléctricos de alta tensión en trabajos de mantenimiento de redes."},"correct":"A","explanation":"La tabla del documento clasifica los EPI en Categoría I (riesgos mínimos, pueden comercializarse sin marcado CE, ej. guantes de jardinería), Categoría II (riesgos intermedios, certificado CE, ej. calzado de seguridad) y Categoría III (riesgos graves, mortales o irreversibles, organismo autorizado, ej. arnés)."},{"id":90,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Un par de botas de seguridad frente a golpes y aplastamiento se clasifica en la Categoría II de los EPI. ¿Qué nivel de riesgo cubren y qué requisito de certificación precisan según el documento?","options":{"A":"Riesgos mínimos sin exigencia de marcado europeo alguno.","B":"Riesgos exclusivamente biológicos con revisión trimestral por el empresario.","C":"Riesgos mortales con certificación exclusiva por parte de los sindicatos.","D":"Riesgos intermedios y necesitan contar con el correspondiente certificado CE."},"correct":"D","explanation":"Los EPI de Categoría II protegen contra riesgos intermedios (como el calzado de seguridad) y necesitan certificado CE."},{"id":91,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Un técnico de aerogeneradores trabaja suspendido a treinta metros de altura utilizando un arnés de seguridad. ¿A qué categoría pertenece este EPI y qué exigencia de certificación requiere?","options":{"A":"Categoría II, con validación exclusiva por el servicio de prevención propio de la empresa.","B":"Categoría I, al tratarse de un equipo de sujeción simple que se ajusta al cuerpo del usuario.","C":"Categoría III, al proteger frente a riesgos mortales o irreversibles, certificado por organismo autorizado.","D":"Categoría especial excluida del RD 773/1997 por asimilarse al material deportivo de escalada."},"correct":"C","explanation":"Los EPI de Categoría III (ejemplo del texto: arnés) protegen contra riesgos graves, mortales o irreversibles y necesitan estar certificados por un organismo autorizado."},{"id":92,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Según la tabla «Tipos de EPI según los riesgos», ¿qué equipos protegen frente a la combinación específica de riesgos físicos, químicos, biológicos y de fuego?","options":{"A":"Las mascarillas para la protección de las vías respiratorias.","B":"Las gafas de montura universal para cara y ojos.","C":"Los cascos protectores diseñados para cubrir la cabeza.","D":"Los auriculares atenuadores destinados a la protección auditiva."},"correct":"A","explanation":"En la tabla de la pág. 48, la mascarilla protege las vías respiratorias frente a riesgos físico, químico, biológico y fuego. El casco protege frente a riesgo mecánico y físico; las gafas frente a mecánico y químico; y los auriculares frente a ruido."},{"id":93,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Rafael es Técnico Superior de iluminación en un teatro: diseña, monta sistemas de iluminación, maneja la mesa y repara equipos eléctricos. Además de verificar el uso previo de medidas colectivas, ¿qué conjunto de EPI del documento resulta más coherente con su actividad?","options":{"A":"Mascarilla frente a riesgos biológicos y auriculares frente a ruido en la sala de control.","B":"Gafas químicas para manipulación de líquidos y calzado de seguridad de categoría I.","C":"Ropa de trabajo corriente y cinturón de seguridad para desplazamientos técnicos.","D":"Guantes, botas y ropa frente a riesgo eléctrico, más arnés para montajes elevados."},"correct":"D","explanation":"Por sus tareas de montaje en altura de sistemas de iluminación (caídas -\u003e arnés/casco) y mantenimiento/reparación eléctrica de focos y equipos (riesgo eléctrico/físico/mecánico -\u003e guantes, botas y ropa de trabajo adecuadas), esos son los EPI coherentes con la tabla de riesgos del documento."},{"id":94,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Según la tabla «Tipos de EPI según los riesgos», ¿frente a qué cuatro tipos de riesgos protegen los guantes (manos), la ropa de trabajo (cuerpo) y las botas (pies)?","options":{"A":"Riesgos de origen ergonómico, psicosocial, térmico y acústico.","B":"Riesgos de origen físico, químico, biológico y eléctrico.","C":"Riesgos de caída en altura, deslumbramiento y fatiga.","D":"Riesgos de atrapamiento mecánico en máquinas sin resguardo."},"correct":"B","explanation":"En la tabla de la pág. 48, los elementos 6 (guantes), 7 (ropa de trabajo) y 8 (botas) comparten exactamente el bloque de riesgos: «Físico, químico, biológico, eléctrico»."},{"id":95,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"En el apartado «En qué nos equivocamos», Martina se queda embarazada en un entorno de intensa exposición acústica y la empresa le dice que «el casco de protección que ya le facilitaron la protege igualmente del ruido». ¿Qué error técnico comete la empresa?","options":{"A":"Confunde protección craneal con auditiva y omite la vulnerabilidad especial por embarazo.","B":"Exige adquirir auriculares de categoría I en lugar de esperar al tercer trimestre.","C":"Clasifica el casco en la categoría III cuando figura excluido como prenda corriente.","D":"Supone que el ruido afecta al embarazo solo al superar cuarenta horas semanales."},"correct":"A","explanation":"El casco protege la cabeza frente a riesgos mecánicos y físicos (golpes/caídas de objetos), no los oídos frente al ruido (que requiere auriculares/protectores auditivos tras actuar colectivamente). Además, al estar embarazada es trabajadora especialmente sensible (art. 26 LPRL) y el ruido acentúa el riesgo."},{"id":96,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Un trabajador debe elegir entre dos modelos de gafas para trabajar con salpicaduras ácidas y partículas proyectadas. Según la tabla de tipos de EPI, ¿qué dos riesgos cubren las gafas de protección?","options":{"A":"Riesgo biológico y riesgo eléctrico de baja tensión.","B":"Riesgo mecánico y riesgo químico en cara y ojos.","C":"Riesgo de caídas al mismo nivel y riesgo térmico extremo.","D":"Riesgo de fuego directo y ruido de alta frecuencia."},"correct":"B","explanation":"La tabla de tipos de EPI indica que las gafas protegen cara y ojos frente a riesgos mecánicos y químicos."},{"id":97,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Si un equipo de protección individual cumple con todos los requisitos legales, ¿qué misión concreta tiene cuando el trabajador lo lleva puesto?","options":{"A":"Anular por completo la probabilidad de que suceda cualquier fallo técnico en la maquinaria del taller.","B":"Sustituir la evaluación periódica de riesgos que debe efectuar el técnico superior en el centro de trabajo.","C":"Eliminar o reducir las consecuencias personales o lesiones que un posible accidente pueda producirle.","D":"Permitir que la empresa prescinda de los resguardos fijos y las campanas extractoras en las zonas cerradas."},"correct":"C","explanation":"El apartado 3.2 precisa que la misión del EPI «no es la de eliminar el riesgo de accidente, sino eliminar o reducir las consecuencias personales o lesiones que este pueda producir en el trabajador»."},{"id":98,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Un empresario decide que dos operarios que trabajan en turnos distintos compartan un mismo par de botas de seguridad y una misma mascarilla autofiltrante para ahorrar costes. ¿Qué regla esencial de los EPI infringe?","options":{"A":"La norma que permite compartir equipos de categoría II tras desinfectarlos al final del turno.","B":"La regla que autoriza el uso rotatorio entre personal temporal con idéntica talla anatómica.","C":"La exigencia de sustituir anualmente cualquier equipo compartido aunque conserve su marcado CE.","D":"La regla de que los EPI son personales y deben ajustarse al usuario."},"correct":"D","explanation":"El documento establece que «los equipos de protección individual son de uso personal» y deben adecuarse a las condiciones anatómicas y fisiológicas, así como al estado de salud de cada trabajador con los ajustes necesarios."},{"id":99,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Un laboratorio asigna mascarillas estándar a todos los técnicos sin comprobar si alguno padece asma o presenta dificultades respiratorias con ese modelo. ¿Qué precepto específico de los EPI se incumple?","options":{"A":"El requisito de elegir categoría I sin certificación de ningún organismo autorizado.","B":"La exigencia de adaptarse a las condiciones anatómicas, fisiológicas y de salud.","C":"La prohibición de usar mascarillas existiendo campanas extractoras junto al foco emisor.","D":"La facultad que permite al técnico escoger el fabricante de su respirador."},"correct":"B","explanation":"Uno de los preceptos obligatorios de los EPI es «adecuarse a las condiciones anatómicas y fisiológicas, y al estado de salud del trabajador»."},{"id":100,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Al analizar las obligaciones del empresario en materia de EPI, ¿qué debe hacer después de entregar los equipos e instruir a los operarios?","options":{"A":"Limitar su función al archivo de los recibos de entrega firmados por los trabajadores.","B":"Transferir el seguimiento del mantenimiento al fabricante original de cada equipo entregado.","C":"Controlar que tanto la utilización como el mantenimiento de los equipos sean correctos.","D":"Supervisar el estado de los equipos de categoría III dejando los demás al trabajador."},"correct":"C","explanation":"Entre las ocho obligaciones del empresario listadas en la página 47 figura expresamente: «Controlar que el uso y mantenimiento de los equipos sea el correcto»."},{"id":101,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Una fábrica adquiere cascos de protección contra golpes que cubren el cráneo pero cuyo arnés interior es rígido, provoca fuertes dolores de cabeza tras media hora de uso y obliga al trabajador a quitárselo continuamente. ¿Qué característica de los EPI falla principalmente?","options":{"A":"La eficacia protectora frente a impactos mecánicos y riesgos físicos en altura.","B":"La inocuidad química de los plásticos empleados en el armazón exterior del casco.","C":"La compatibilidad simultánea con el uso de gafas de seguridad o protectores auditivos.","D":"La ergonomía del equipo, pues debe adaptarse al usuario para trabajar sin molestias."},"correct":"D","explanation":"Los EPI deben ser ergonómicos («se adaptan al usuario y permiten trabajar con comodidad») y no ocasionar molestias innecesarias. Un diseño incómodo provoca rechazo y pérdida de protección."},{"id":102,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"En una obra de construcción con riesgo de caída de altura desde un andamio y riesgo simultáneo de caída de objetos, ¿qué medidas colectivas e individuales deben combinarse siguiendo el orden correcto?","options":{"A":"Priorizar barandillas y redes colectivas, complementándolas con arnés y casco si hace falta.","B":"Priorizar arnés y casco individuales, instalando barandillas cuando aumente el personal en obra.","C":"Combinar señalización de advertencia y gafas protectoras manteniendo despejados los bordes altos.","D":"Instalar marquesinas en la cubierta superior y asignar guantes aislantes de categoría II."},"correct":"A","explanation":"Ante el riesgo de caída en obra (actividad 4 de «Resuelve y Practica»), deben priorizarse medidas de protección colectiva (barandillas de mínimo 90 cm con reborde inferior, redes de seguridad, marquesinas) y complementarlas con EPI (arnés/cinturón de seguridad frente a caídas y casco frente a caída de objetos)."},{"id":103,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"¿Cuál de las siguientes actuaciones NO forma parte de las obligaciones que corresponden al empresario en relación con los equipos de protección individual?","options":{"A":"Elegir los equipos adecuados para cada puesto tras determinar las partes del cuerpo a proteger.","B":"Informar inmediatamente al trabajador sobre las anomalías detectadas por el fabricante en otros centros.","C":"Indicar a los trabajadores en qué actividades u ocasiones concretas deben utilizar los EPI.","D":"Instruir sobre su correcta utilización y mantenimiento, además de proporcionarlos gratuitamente."},"correct":"B","explanation":"Informar inmediatamente al superior jerárquico directo sobre cualquier defecto, anomalía o daño apreciado en el EPI utilizado es una obligación del trabajador, mientras que determinar puestos y partes a proteger, elegir, indicar ocasiones, instruir y suministrar gratuitamente son obligaciones del empresario."},{"id":104,"topicId":"t3","topic":"3. Técnicas de protección","subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","stem":"Al comparar unas botas con puntera reforzada y unos guantes de jardinería, ¿qué diferencia normativa señala el cuadro de categorías de los EPI?","options":{"A":"Los guantes corresponden a Categoría III con organismo autorizado y las botas a Categoría I.","B":"Ambos corresponden a Categoría II y pueden comercializarse sin ningún certificado europeo CE.","C":"Las botas son Categoría II (riesgo intermedio) y los guantes Categoría I (riesgo mínimo).","D":"Las botas pierden la condición de EPI en exteriores y los guantes son Categoría II."},"correct":"C","explanation":"En el cuadro de la página 48, el calzado de seguridad es el ejemplo de Categoría II (riesgos intermedios, necesita certificado CE), mientras que los guantes de jardinería son el ejemplo de Categoría I (riesgos mínimos, pueden comercializarse sin marcado CE)."},{"id":105,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.1","subtopic":"4.1. Trabajadores sensibles y con discapacidad (art. 25 LPRL)","stem":"En «En qué nos equivocamos», Marisa es diagnosticada de diabetes y solicita un estudio específico de su puesto, pero le responden que esa protección solo se aplica a menores de 18 años y embarazadas. ¿Por qué es errónea esa respuesta?","options":{"A":"Porque el artículo 25 LPRL protege exclusivamente a trabajadores temporales cedidos por ETT.","B":"Porque cualquier diagnóstico diabético impone la incapacidad permanente sin evaluar el puesto.","C":"Porque esa protección especial excluye únicamente al personal mayor de sesenta años.","D":"Porque el artículo 25 LPRL ampara a todo trabajador sensible por su estado biológico."},"correct":"D","explanation":"El art. 25 LPRL obliga al empresario a garantizar de manera específica la protección de los trabajadores que, por sus propias características personales o estado biológico conocido (como una enfermedad crónica diagnosticada), sean especialmente sensibles a los riesgos derivados del trabajo."},{"id":106,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.1","subtopic":"4.1. Trabajadores sensibles y con discapacidad (art. 25 LPRL)","stem":"¿Por qué se afirma en el documento que la vulnerabilidad de un «trabajador sensible a determinados riesgos» (art. 25 LPRL) tiene un carácter subjetivo?","options":{"A":"Porque ciertos riesgos afectan a personas concretas según sus circunstancias, no a toda la plantilla.","B":"Porque depende únicamente de la valoración personal expresada durante la entrevista inicial de selección.","C":"Porque afecta solo al personal administrativo exento de manipular máquinas o sustancias químicas.","D":"Porque exige haber sufrido al menos dos bajas laborales previas en el mismo puesto."},"correct":"A","explanation":"El cuadro de la página 49 explica que esta especial sensibilidad deriva de circunstancias subjetivas que afectan a sus características personales o estado biológico: determinados riesgos inciden sobre trabajadores concretos y no por el puesto general que afecta por igual a todos."},{"id":107,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.1","subtopic":"4.1. Trabajadores sensibles y con discapacidad (art. 25 LPRL)","stem":"Al evaluar los riesgos de un puesto que va a ocupar un trabajador con discapacidad auditiva reconocida, el técnico presupone que tendrá idénticas necesidades preventivas que otro compañero con discapacidad visual. ¿Qué directriz del documento incumple?","options":{"A":"La obligación de aplicar un protocolo único estandarizado para todas las discapacidades sensoriales.","B":"La exigencia de considerar cada caso individual evitando generalizaciones e hipótesis sobre la discapacidad.","C":"La norma que asigna automáticamente tareas administrativas al personal con discapacidad reconocida.","D":"El criterio que traslada la evaluación individual del puesto al médico de cabecera del trabajador."},"correct":"B","explanation":"El documento subraya respecto a trabajadores con discapacidad (art. 25 LPRL) que en las evaluaciones hay que tener en cuenta las características individuales de cada uno, siendo importante «no dar por sentado que todos los trabajadores son iguales, ni formular hipótesis sobre los riesgos para la salud y la seguridad asociados a una discapacidad determinada»."},{"id":108,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.1","subtopic":"4.1. Trabajadores sensibles y con discapacidad (art. 25 LPRL)","stem":"Según el artículo 25 de la LPRL, ¿qué tres tipos de discapacidad quedan expresamente mencionados dentro del deber específico de protección empresarial?","options":{"A":"Discapacidad temporal, económica y formativa derivada de la falta de experiencia.","B":"Discapacidad crónica, laboral y ambiental vinculada a los turnos de trabajo.","C":"Discapacidad física, psíquica o sensorial oficialmente reconocida en el trabajador.","D":"Discapacidad organizativa, postural y térmica detectada en la evaluación anual."},"correct":"C","explanation":"El artículo 25 de la LPRL cita textualmente a los trabajadores que por sus características personales o estado biológico conocido, «incluidos aquellos que tengan reconocida la situación de discapacidad física, psíquica o sensorial», sean especialmente sensibles a los riesgos derivados del trabajo."},{"id":109,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.1","subtopic":"4.1. Trabajadores sensibles y con discapacidad (art. 25 LPRL)","stem":"En una evaluación de riesgos inicial, una empresa aplica exactamente las mismas medidas estándar a toda la plantilla sin comprobar si algún trabajador presenta alergias severas o sensibilidad química conocida. ¿Qué riesgo legal y preventivo asume?","options":{"A":"Cumple íntegramente el art. 25 LPRL siempre que las medidas generales cuenten con señalización óptica adecuada.","B":"Únicamente incumple la normativa si los trabajadores afectados tienen una antigüedad superior a cinco años.","C":"Evita responsabilidades si entrega una copia del cuadro general de riesgos junto con el contrato laboral.","D":"Desatiende su deber de protección específica frente a trabajadores especialmente sensibles por su estado biológico."},"correct":"D","explanation":"Un puesto considerado seguro para la mayoría puede entrañar riesgo grave para un trabajador especialmente sensible por sus características personales o estado biológico conocido; el art. 25 LPRL obliga al empresario a garantizar su protección de forma específica."},{"id":110,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.1","subtopic":"4.1. Trabajadores sensibles y con discapacidad (art. 25 LPRL)","stem":"Cuando una trabajadora con discapacidad motriz se incorpora a una oficina técnica, ¿cómo debe proceder el servicio de prevención al evaluar su puesto?","options":{"A":"Analizar sus características individuales reales y adaptar el puesto evitando suposiciones genéricas.","B":"Aplicar el listado estándar de restricciones médicas publicado para todas las discapacidades físicas.","C":"Mantener la evaluación general del departamento si el mobiliario posee certificación ergonómica estándar.","D":"Posponer el estudio específico del puesto hasta concluir el periodo de prueba inicial del contrato."},"correct":"A","explanation":"Conforme al apartado sobre trabajadores con discapacidad (art. 25 LPRL), cada evaluación debe considerar las características individuales de la persona trabajadora concreta, sin formular hipótesis ni generalizaciones sobre su discapacidad."},{"id":111,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"¿Qué justifica que el artículo 26 de la LPRL otorgue una protección especial a las mujeres embarazadas o en periodo de lactancia?","options":{"A":"La prohibición legal absoluta de que realicen cualquier actividad laboral durante el embarazo.","B":"Que peligros generales como ruido, sustancias o estrés se acentúan en esas etapas.","C":"La imposibilidad técnica de instalar protección colectiva en empresas con mayoría femenina.","D":"La obligación exclusiva de reducir su jornada sin modificar la exposición a contaminantes."},"correct":"B","explanation":"El texto explica que «peligros existentes en los lugares de trabajo, sustancias peligrosas, ruido, estrés, etc., que pueden suponer riesgos para la salud de la población trabajadora en general, se acentúan en el caso de mujeres embarazadas o en periodo de lactancia»."},{"id":112,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"De acuerdo con el Estatuto de los Trabajadores citado en el apartado sobre menores (art. 27 LPRL), ¿qué franja de edad define a los «trabajadores menores» y cuál es la regla sobre los menores de 16 años?","options":{"A":"Menores son quienes tienen entre 14 y 18 años; los menores de 16 pueden trabajar en fábricas con permiso paterno.","B":"Menores son únicamente los de 16 años; a partir de los 17 tienen idéntico régimen preventivo que los adultos.","C":"Menores son los mayores de 16 y menores de 18 años; se prohíbe contratar a menores de 16, salvo espectáculos excepcionales.","D":"Menores son todos los menores de 25 años; los menores de 16 solo pueden contratarse mediante empresas de trabajo temporal."},"correct":"C","explanation":"El documento indica que el ET considera trabajadores menores a los mayores de 16 años y menores de 18, y que su art. 6.1 prohíbe expresamente contratar a menores de 16 años, salvo participación en espectáculos públicos en casos excepcionales (art. 6.4 ET)."},{"id":113,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"¿Qué tres condiciones exige la normativa para proteger a los trabajadores menores de edad debido a su falta de experiencia, formación y concienciación sobre los peligros?","options":{"A":"Contrato por ETT, retribución reducida y jornada dividida en turnos rotatorios diurnos.","B":"Uso exclusivo de categoría I, autonomía plena y rotación semanal de tareas.","C":"Reconocimiento médico trimestral, exención formativa inicial y prohibición de señales ópticas.","D":"Formación e información adecuadas, supervisión eficaz y puestos seguros y saludables."},"correct":"D","explanation":"Frente a su falta de experiencia, formación y concienciación, el cuadro del art. 27 LPRL exige condiciones para garantizar «una información y formación adecuadas, una supervisión eficaz y la realización de una actividad laboral solo en determinados puestos que se consideren adecuados, seguros y saludables para este colectivo»."},{"id":114,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"Un joven de 15 años recibe una oferta para trabajar como aprendiz de almacén durante el verano con autorización de sus padres. Según lo expuesto en el apartado del artículo 27 LPRL y el Estatuto de los Trabajadores, ¿es legal esta contratación?","options":{"A":"No, pues el art. 6.1 ET prohíbe contratar menores de 16, salvo espectáculos.","B":"Sí, pues el almacén resulta seguro cuando existe supervisión directa de un oficial.","C":"Sí, siempre que la contratación utilice una ETT con jornada laboral reducida.","D":"No, salvo que complete antes un curso práctico sobre señalización de seguridad."},"correct":"A","explanation":"El art. 6.1 del Estatuto de los Trabajadores prohíbe expresamente la contratación de los menores de 16 años, con la única salvedad de su participación en espectáculos públicos en casos excepcionales (art. 6.4 ET)."},{"id":115,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"Antonio es técnico de laboratorio en un hospital contratado temporalmente a través de una empresa de trabajo temporal (ETT). Además de los riesgos propios de las pruebas PCR, ¿qué factores adicionales aumentan su vulnerabilidad según el art. 28 LPRL?","options":{"A":"La obligación de rotar semanalmente entre distintos centros sanitarios de la misma provincia.","B":"El desconocimiento del oficio y lugar, inexperiencia, acogida insuficiente y tareas peligrosas.","C":"El retraso en el cobro de dietas y la exclusión de las pruebas médicas de medicina reparadora.","D":"La aplicación de protocolos higiénicos pensados para personal veterano con amplia antigüedad."},"correct":"B","explanation":"El apartado sobre trabajadores temporales (art. 28 LPRL) señala que quienes proceden de ETT no son propios de la empresa donde trabajan, lo que añade vulnerabilidad por desconocimiento del oficio y del lugar de trabajo, inexperiencia, insuficiente acogida y asignación de los trabajos más peligrosos."},{"id":116,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"Según los datos recogidos en el documento sobre los trabajadores con contratos temporales (art. 28 LPRL), ¿qué proporción aproximada de riesgo de sufrir accidentes laborales soportan respecto a la plantilla fija y qué otro ámbito de salud se ve afectado por la precariedad?","options":{"A":"El doble de riesgo de accidente laboral y una mejora compensatoria de la cohesión psicosocial.","B":"El mismo riesgo de accidente laboral y una reducción exclusiva en las enfermedades respiratorias.","C":"El triple de riesgo de padecer accidentes laborales y un impacto negativo en su estado de salud mental.","D":"La mitad de riesgo de accidente laboral al estar limitados únicamente a tareas auxiliares sin maquinaria."},"correct":"C","explanation":"El documento indica textualmente que «se ha constatado que los trabajadores con contratos temporales soportan aproximadamente el triple de riesgo de padecer accidentes laborales, al tiempo que la precariedad en el empleo genera una mayor exposición a varios factores de riesgo laboral e influye negativamente en el estado de salud mental»."},{"id":117,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"¿Qué tendencia demográfica y qué proyección para 2025 menciona el documento para justificar el refuerzo de políticas preventivas hacia los trabajadores mayores por parte de la Agencia Europea para la Seguridad y la Salud en el Trabajo?","options":{"A":"La reducción progresiva de la edad de jubilación y un descenso del 50 % en los trabajadores con experiencia.","B":"El abandono temprano del mercado laboral antes de los 55 años en todos los países europeos.","C":"La equiparación numérica exacta entre trabajadores menores de 18 años y mayores de 65 en el sector industrial.","D":"El retraso de la edad de jubilación y la estimación de que los mayores dupliquen a los menores de 25 años."},"correct":"D","explanation":"El cuadro sobre trabajadores mayores explica que el retraso de la edad de jubilación y las tendencias demográficas han llevado a la Agencia Europea a fortalecer estas políticas, estimando que para 2025 la proporción de trabajadores mayores duplique el número de los menores de 25 años."},{"id":118,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"En una cadena de montaje se asignan sistemáticamente las máquinas más antiguas y peligrosas al personal recién llegado de una empresa de trabajo temporal, sin apenas acogida previa. ¿Qué problemática denunciada en el art. 28 LPRL reproduce esta empresa?","options":{"A":"La vulnerabilidad temporal derivada de escasa acogida y asignación a tareas peligrosas.","B":"La discriminación positiva por edad orientada a proteger únicamente al personal veterano.","C":"La rotación planificada para acelerar el aprendizaje práctico del personal externo nuevo.","D":"El cumplimiento preventivo al reservar los puestos más sencillos para empleados fijos."},"correct":"A","explanation":"El texto describe exactamente esta situación como causa de vulnerabilidad en trabajadores temporales (art. 28 LPRL): falta de acogida suficiente, inexperiencia, desconocimiento del puesto y asignación de los trabajos más peligrosos."},{"id":119,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"Una trabajadora en periodo de lactancia desempeña tareas en una planta química con exposición a vapores orgánicos y estrés elevado. Conforme al artículo 26 de la LPRL, ¿cómo debe enfocar la empresa su situación preventiva?","options":{"A":"Mantener las medidas estándar del departamento hasta concluir el primer semestre tras el parto.","B":"Limitar la protección especial al embarazo, aplicándole después el régimen general de higiene.","C":"Garantizar una protección específica porque los peligros de sustancias y estrés se acentúan.","D":"Aplicar únicamente reconocimientos médicos semestrales para vigilar posibles síntomas respiratorios."},"correct":"C","explanation":"El artículo 26 de la LPRL protege de forma específica tanto a las mujeres embarazadas como a quienes se encuentran en periodo de lactancia, dado que riesgos como sustancias peligrosas, ruido o estrés se acentúan en ambas situaciones."},{"id":120,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"Si comparamos la protección específica de trabajadores temporales (art. 28 LPRL) con la de trabajadores menores (art. 27 LPRL), ¿qué factor de riesgo comparten ambos colectivos en el entorno laboral?","options":{"A":"La prohibición legal absoluta de realizar cualquier actividad antes de cumplir los dieciocho años.","B":"La inexperiencia y el insuficiente conocimiento de los peligros presentes en los puestos de trabajo.","C":"La pertenencia obligatoria a una empresa de trabajo temporal durante su primer año de actividad.","D":"El envejecimiento fisiológico derivado del retraso en la edad ordinaria de jubilación laboral."},"correct":"B","explanation":"Tanto en los trabajadores menores (falta de experiencia, formación y concienciación sobre los peligros) como en los temporales (inexperiencia, desconocimiento del oficio y del lugar de trabajo), la falta de experiencia y conocimiento del puesto multiplica la exposición al riesgo."},{"id":121,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"¿Qué impacto directo produce la flexibilización del tiempo de trabajo y la inestabilidad en el empleo sobre los trabajadores temporales según el apartado correspondiente al artículo 28 LPRL?","options":{"A":"Mejora la adaptación ergonómica porque los empleados rotan con frecuencia por diferentes centros.","B":"Reduce la siniestralidad grave al evitar que el trabajador acumule fatiga crónica en el mismo puesto.","C":"Repercute en peores indicadores de seguridad, así como de bienestar físico y mental.","D":"Exime a la empresa usuaria de proporcionar instrucciones sobre los equipos que se utilizan."},"correct":"C","explanation":"El texto señala que los cambios en el mercado laboral y la organización del trabajo que flexibilizan el tiempo y la estabilidad en el empleo repercuten «en peores indicadores de seguridad y bienestar físico y mental»."},{"id":122,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"Una joven de 17 años trabaja en un taller mecánico y el encargado la deja operando sola una prensa hidráulica compleja sin haberle explicado sus riesgos ni vigilar la tarea. ¿Qué exigencias del artículo 27 LPRL incumple?","options":{"A":"La contratación mediante ETT, la rotación semanal y el reconocimiento médico previo.","B":"La edad mínima de 18 años, el horario reducido y la prohibición de máquinas industriales.","C":"El uso de categoría III, la consulta sindical y la autorización de la Agencia Europea.","D":"La instrucción adecuada, la supervisión eficaz y la asignación a puestos seguros."},"correct":"D","explanation":"Para los trabajadores menores (16–18 años), el art. 27 LPRL exige garantizar información y formación adecuadas, supervisión eficaz y realización de la actividad únicamente en puestos considerados adecuados, seguros y saludables."},{"id":123,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"¿Por qué la Agencia Europea para la Seguridad y la Salud en el Trabajo impulsa el fortalecimiento de las políticas de protección para trabajadores mayores?","options":{"A":"Por el retraso de la jubilación unido a la demografía europea actual.","B":"Porque este colectivo tiene prohibido utilizar equipos de protección categoría III.","C":"Porque este colectivo sufre el triple de accidentes que el personal temporal.","D":"Porque los mayores de 55 años quedan incluidos dentro del artículo 27."},"correct":"A","explanation":"El cuadro de trabajadores mayores explica que el retraso de la edad de jubilación junto a las tendencias demográficas europeas ha llevado a la Agencia Europea a fortalecer las políticas de protección laboral para este colectivo."},{"id":124,"topicId":"t4","topic":"4. Protección especial a determinados colectivos","subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","stem":"Un instituto de formación analiza la tabla completa de colectivos especialmente sensibles (tema 4). ¿Qué relación normativa es totalmente exacta respecto a los artículos de la LPRL citados en el documento?","options":{"A":"Art. 25 trabajadores mayores; art. 26 menores; art. 27 discapacidad; art. 28 embarazo y lactancia.","B":"Art. 25 sensibles y discapacidad; art. 26 embarazo y lactancia; art. 27 menores; art. 28 temporales.","C":"Art. 25 temporales; art. 26 sensibles; art. 27 embarazo y lactancia; art. 28 menores de 16 años.","D":"Art. 25 menores; art. 26 temporales por ETT; art. 27 mayores; art. 28 discapacidad sensorial."},"correct":"B","explanation":"El cuadro de la página 49 asigna exactamente: art. 25 LPRL (trabajadores sensibles y trabajadores con discapacidad), art. 26 LPRL (mujeres embarazadas o en periodo de lactancia), art. 27 LPRL (trabajadores menores) y art. 28 LPRL (trabajadores temporales)."},{"id":125,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"¿Cuál es la función general de la señalización de seguridad respecto al resto de técnicas preventivas y protectoras de la empresa?","options":{"A":"Reemplazar las protecciones colectivas cuando su instalación resulte costosa en pasillos o escaleras.","B":"Sustituir las instrucciones verbales y escritas que debe entregar el empresario antes de iniciar la actividad.","C":"Garantizar por sí sola la eliminación en origen de los agentes físicos, químicos y biológicos del taller.","D":"Advertir de peligros y ordenar conductas como técnica que complementa, y nunca sustituye, a las demás."},"correct":"D","explanation":"La señalización advierte de posibles situaciones de peligro y ordena una conducta en el trabajo; «no sustituye a las demás técnicas de seguridad, sino que las complementa»."},{"id":126,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"¿Cuáles son los cuatro objetivos operativos que debe permitir alcanzar la señalización de seguridad en el trabajo según el documento?","options":{"A":"Informar sobre riesgos, alertar emergencias, localizar medios contra incendios y orientar evacuaciones.","B":"Sustituir resguardos mecánicos, eximir del EPI, evaluar contaminantes y corregir posturas forzadas.","C":"Sancionar infracciones internas, controlar accesos, medir ruidos ambientales y certificar maquinaria.","D":"Clasificar residuos químicos, regular temperaturas, sujetar cargas elevadas y supervisar aprendices."},"correct":"A","explanation":"Los cuatro objetivos listados en la página 50 son: informar de riesgos, prohibiciones u obligaciones; alertar ante emergencia; facilitar la localización de instalaciones de protección contra incendios; y orientar en el uso de las vías de evacuación."},{"id":127,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"En una planta de embotellado se distribuye gas butano por tuberías para procesos térmicos. Para que cualquier trabajador note de inmediato una fuga, se añade un compuesto oloroso característico al gas. ¿Qué tipo de señalización se utiliza?","options":{"A":"Señalización táctil por alteración superficial de la tubería.","B":"Señalización auditiva mediante vibración acústica continua.","C":"Señalización olfativa mediante aditivo en gases inodoros.","D":"Señalización óptica de balizamiento en el acceso de la nave."},"correct":"C","explanation":"La señalización olfativa consiste precisamente en incorporar un aditivo a gases originalmente inodoros (como el butano) para poder detectar su presencia mediante el olfato."},{"id":128,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"Un almacén químico guarda ciertos productos muy peligrosos en envases cuya superficie exterior presenta un acabado rugoso específico para distinguirlos al tacto, incluso con poca visibilidad. ¿A qué modalidad de señalización corresponde?","options":{"A":"Señalización óptica en forma de panel universal.","B":"Señalización táctil mediante recipientes rugosos.","C":"Señalización luminosa de carácter intermitente.","D":"Señalización gestual codificada de manipulación."},"correct":"B","explanation":"En la clasificación sensorial de la página 50, la señalización táctil corresponde a los «recipientes rugosos para determinadas sustancias»."},{"id":129,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"En una nave logística ruidosa, un operario en tierra guía al gruista mediante señales codificadas de brazos para evitar colisiones con una viga pesada. ¿Dentro de qué categoría sensorial principal clasifica el documento esta señalización y con qué finalidad específica?","options":{"A":"Óptica gestual, para dirigir maniobras que constituyan un riesgo.","B":"Auditiva verbal, para confirmar instrucciones orales en zonas ruidosas.","C":"Óptica luminosa, para indicar el mayor grado de urgencia.","D":"Táctil codificada, para orientar la manipulación manual de cargas."},"correct":"A","explanation":"La señalización gestual se realiza «mediante movimientos de las manos o de los brazos en forma codificada para guiar a las personas que estén haciendo maniobras que constituyan un riesgo» y pertenece a la señalización óptica (percibida por la vista)."},{"id":130,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"En un edificio de oficinas se instala un dispositivo con materiales transparentes iluminado desde su interior que permanece encendido de forma continua para marcar un paso, y otro que parpadea de forma intermitente junto a un portón de carga. ¿Qué indica la intermitencia según el documento?","options":{"A":"Que la lámpara interior presenta un fallo de alimentación y requiere mantenimiento.","B":"Que la señal pertenece al grupo de salvamento y sustituye a las vías de evacuación.","C":"Que el dispositivo tiene baja intensidad para evitar molestias visuales al personal.","D":"Que la situación señalizada presenta un mayor grado de peligrosidad o urgencia."},"correct":"D","explanation":"Dentro de la señalización óptica luminosa, el documento explica que la intensidad de la luz debe asegurar su percepción sin deslumbramientos y que «si son intermitentes indican mayor grado de peligrosidad o urgencia»."},{"id":131,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"Dentro de la señalización auditiva percibida a través del oído, ¿qué dos modalidades diferencia expresamente el cuadro del documento?","options":{"A":"Acústica (sirenas, timbres, alarmas) y comunicación verbal (palabras orales o escritas).","B":"Olfativa (gases inodoros) y gestual (movimientos codificados de brazos en maniobras).","C":"Luminosa continua (balizamiento fijo) y luminosa intermitente (emergencia urgente).","D":"Acústica industrial (pantallas sonoras) y acústica personal (auriculares de categoría II)."},"correct":"A","explanation":"La señalización auditiva puede ser: «Acústica: señales sonoras codificadas (sirenas, timbres, alarmas)» y «Comunicación verbal: mediante la utilización de palabras orales o escritas»."},{"id":132,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"¿Qué condición técnica de visibilidad debe cumplir siempre una señal luminosa formada por un dispositivo transparente iluminado desde el interior?","options":{"A":"Utilizar obligatoriamente el color azul de contraste para distinguirse de los carteles impresos.","B":"Asegurar una intensidad suficiente para ser percibida sin llegar a producir deslumbramientos.","C":"Emitir simultáneamente un sonido agudo codificado para facilitar su detección a distancia.","D":"Colocarse exclusivamente en el exterior de las edificaciones con visibilidad desde la vía pública."},"correct":"B","explanation":"El cuadro de señalización óptica luminosa indica textualmente que «la intensidad de la luz deberá asegurar su percepción sin producir deslumbramientos»."},{"id":133,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"Un técnico desea consultar la guía oficial de referencia sobre señalización de seguridad y salud en el trabajo recomendada en el libro de texto (igual que la nota sobre pantallas de visualización de datos NTP 139). ¿A qué portal institucional debe acudir?","options":{"A":"A la web de la Agencia Europea de Protección Individual (www.ce-epi.eu).","B":"Al portal general de trabajo temporal del Ministerio de Industria (www.ett-ind.es).","C":"A la web del Instituto Nacional de Seguridad y Salud (www.insst.es).","D":"Al registro comercial europeo de fabricantes de señalización luminosa (www.sign-eu.org)."},"correct":"C","explanation":"En la página 50 («Guía sobre señalización de seguridad y salud en el trabajo») y en la página 54 (consulta de la NTP 139), el documento remite expresamente a la página web www.insst.es."},{"id":134,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"En la sección «Resuelve» se pregunta cómo debe ser el sonido de una señal de evacuación (en relación con las señales acústicas de emergencia). ¿Qué característica esencial debe tener respecto al nivel sonoro ambiental y la urgencia?","options":{"A":"Debe emitirse en intervalos breves de volumen moderado para permitir escuchar órdenes orales simultáneas.","B":"Debe combinarse siempre con palabras escritas sobre los paneles verdes situados en cada puerta.","C":"Debe mantenerse constante en tono grave independientemente del ruido generado por las máquinas cercanas.","D":"Debe ser claramente superior al ruido ambiental, continuo o codificado e inequívoco de urgencia."},"correct":"D","explanation":"Las señales acústicas de alarma y evacuación son señales sonoras codificadas (sirenas, timbres, alarmas) cuya percepción por el oído requiere imponerse al ruido ambiental y alertar inequívocamente ante una situación de emergencia para orientar hacia las vías de evacuación."},{"id":135,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"Si una señal auditiva recurre a «palabras orales o escritas» para indicar una actuación preventiva urgente en un puesto de trabajo, ¿cómo se denomina esta subcategoría según el documento?","options":{"A":"Señalización gestual codificada mediante brazos.","B":"Comunicación verbal de carácter auditivo.","C":"Pictograma universal de texto escrito.","D":"Balizamiento luminoso en modo continuo."},"correct":"B","explanation":"El cuadro de la página 50 clasifica la señalización auditiva en dos tipos: Acústica (sirenas, timbres, alarmas) y Comunicación verbal («mediante la utilización de palabras orales o escritas»)."},{"id":136,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","stem":"En una fábrica de montaje, un sistema de balizamiento delimita los pasillos seguros frente a la zona de paso de carretillas elevadoras. ¿Dentro de qué tipo de señalización óptica sitúa el texto el balizamiento?","options":{"A":"Dentro de la modalidad gestual codificada.","B":"Dentro de la modalidad táctil rugosa.","C":"Dentro de la modalidad en panel.","D":"Dentro de la modalidad olfativa ambiental."},"correct":"C","explanation":"En el apartado de «Óptica» (pág. 50), se distinguen tres modalidades: Luminosa, Gestual y En forma de panel («balizamiento, señales luminosas de suficiente intensidad, etc.»)."},{"id":137,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"¿Qué cuatro elementos básicos combina la señalización óptica en forma de panel para transmitir eficazmente un mensaje de seguridad?","options":{"A":"Color de seguridad, color de contraste, forma geométrica y pictograma.","B":"Tono acústico, aditivo oloroso, textura rugosa y movimiento de brazos.","C":"Marcado europeo CE, código numérico de categoría, texto largo y sello empresarial.","D":"Luz intermitente, altura mínima de 90 cm, borde inferior rígido y código de barras."},"correct":"A","explanation":"Según la página 50, en la señalización óptica en forma de panel se combinan: los colores de seguridad, los colores de contraste, las formas geométricas y los pictogramas."},{"id":138,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"¿Por qué razón técnica es indispensable combinar el color de seguridad con formas geométricas normalizadas en los paneles de señalización?","options":{"A":"Para asegurar su durabilidad exterior frente a condiciones climáticas adversas o corrosivas.","B":"Para garantizar la visibilidad nocturna a larga distancia sin necesidad de iluminación interior.","C":"Para diferenciar la categoría técnica de riesgo cubierta por cada equipo individual.","D":"Para reforzar su lectura y evitar confusiones cromáticas en personas daltónicas."},"correct":"D","explanation":"El documento indica expresamente que las formas geométricas «refuerzan la interpretación de las señales de seguridad, evitando las anomalías de ciertas personas (daltónicos) para percibir los colores»."},{"id":139,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"¿Cómo define exactamente el documento el concepto de «pictograma» en el contexto de la señalización de seguridad?","options":{"A":"Como un código sonoro intermitente que alerta exclusivamente en casos de evacuación general.","B":"Como la combinación de formas geométricas, color y símbolo cuyo significado debe ser universal.","C":"Como el tono secundario utilizado en el fondo de un panel para resaltar la visibilidad del texto.","D":"Como la banda roja transversal que cruza de derecha a izquierda una señal de advertencia."},"correct":"B","explanation":"En la nota «Pictograma» (pág. 50) y en «Ponte a prueba» (pág. 56) se define literalmente: «Un pictograma resulta de la combinación de formas geométricas, color y un símbolo, atribuyéndoles un significado determinado con la información relativa de aquello que se quiere comunicar, o cuya comprensión debe ser universal»."},{"id":140,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"¿Cuál es la función del «color de contraste» en una señal de seguridad en forma de panel y qué combinación corresponde al amarillo y al azul?","options":{"A":"Sustituye al pictograma cuando no hay símbolo universal; ambos emplean el color rojo como contraste.","B":"Indica si el equipo es de categoría II o III; el amarillo contrasta con blanco y el azul con negro.","C":"Complementa al color de seguridad aumentando su visibilidad; el amarillo lleva negro y el azul blanco.","D":"Señala la obligatoriedad de llevar protección colectiva; ambos colores utilizan verde como contraste."},"correct":"C","explanation":"El color de contraste complementa al de seguridad incrementando su visibilidad. Según la tabla de la pág. 51: Rojo -\u003e contraste Blanco; Amarillo -\u003e contraste Negro; Azul -\u003e contraste Blanco; Verde -\u003e contraste Blanco."},{"id":141,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"En un pasillo de laboratorio aparece una señal redonda con fondo azul y un pictograma blanco que representa unas manos con guantes. ¿Qué indica esta señal?","options":{"A":"Prohibición de manipular líquidos con las manos desnudas.","B":"Advertencia de riesgo químico por contacto en las manos.","C":"Localización de equipos de auxilio para quemaduras en manos.","D":"Obligación de utilizar guantes de protección en esa zona."},"correct":"D","explanation":"La forma redonda con pictograma blanco sobre fondo azul identifica las señales de obligación (en el ejemplo de la pág. 52, obligación de usar guantes de protección)."},{"id":142,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"En la puerta de un taller aparece una señal redonda de fondo blanco con bordes rojos, banda transversal roja descendente de izquierda a derecha y pictograma negro de una llama o persona pasando. ¿A qué categoría pertenece?","options":{"A":"Señal de advertencia o precaución inmediata.","B":"Señal de equipos de lucha contra incendios.","C":"Señal de prohibición de una conducta concreta.","D":"Señal de salvamento o situación de seguridad."},"correct":"C","explanation":"Las señales de prohibición son redondas y presentan un pictograma negro sobre fondo blanco, con bordes y banda transversal descendente de izquierda a derecha de color rojo."},{"id":143,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"En una nave industrial ves una señal rectangular de color rojo con un pictograma blanco de un extintor o de un teléfono de emergencia. ¿Qué significado tiene este panel según la tabla oficial del tema?","options":{"A":"Señal de prohibición de utilizar agua en caso de fuego eléctrico.","B":"Señal de localización de equipos de lucha contra incendios.","C":"Señal de salvamento o socorro hacia la salida de emergencia.","D":"Señal de advertencia de sustancias altamente inflamables."},"correct":"B","explanation":"La forma rectangular o cuadrada con pictograma blanco sobre fondo rojo (rojo: prohibición, peligro-alarma, material y equipos de lucha contra incendios) corresponde a las señales de equipos de lucha contra incendios (extintor, teléfono de emergencias contra incendios, etc.)."},{"id":144,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"Un operario busca la salida de evacuación y el puesto de primeros auxilios en un edificio tras sonar la alarma. ¿Qué forma y combinación de colores debe buscar en los paneles orientativos?","options":{"A":"Forma rectangular o cuadrada, con pictograma blanco sobre fondo verde.","B":"Forma triangular, con pictograma negro sobre fondo amarillo y bordes negros.","C":"Forma redonda, con pictograma blanco sobre fondo azul y banda transversal roja.","D":"Forma rectangular o cuadrada, con pictograma negro sobre fondo blanco."},"correct":"A","explanation":"Las señales de salvamento o socorro (como la cruz de primeros auxilios, camilla o salida de emergencia) tienen forma rectangular o cuadrada y pictograma blanco sobre fondo verde."},{"id":145,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"En la entrada de un transformador eléctrico se coloca una señal triangular amarilla con borde negro y un rayo negro en su interior. ¿Qué comunica y cuál es su color de contraste?","options":{"A":"Obligación de desconectar la corriente antes de pasar; contraste blanco.","B":"Prohibición de acceso a personal no autorizado; contraste rojo.","C":"Advertencia de peligro o precaución por riesgo eléctrico; contraste negro.","D":"Localización del cuadro de emergencias contra incendios; contraste azul."},"correct":"C","explanation":"Las señales triangulares con pictograma negro sobre fondo amarillo y bordes negros son señales de advertencia (atención y precaución). El amarillo es el color de seguridad y el negro su color de contraste."},{"id":146,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"En el ejemplo de la fábrica de transformación de plásticos (pág. 51) se señaliza un almacén de materias nocivas o irritantes con una señal triangular de fondo naranja y una «X» negra en el centro. ¿Qué peculiaridad destaca el texto sobre esta señal?","options":{"A":"Que debería llevar fondo rojo por indicar peligro grave de intoxicación inmediata.","B":"Que las sustancias irritantes sustituyen el triángulo por un cuadrado azul.","C":"Que el pictograma debería ser blanco sobre verde para aumentar su visibilidad.","D":"Que, indicando peligro en vez de amarilla, resulta naranja con contraste negro."},"correct":"D","explanation":"El ejemplo 2 de la página 51 explica expresamente: «si bien se trata de una señal que indica peligro, debería ser de color amarillo con un color de contraste en negro, esta señal en concreto es de color naranja con color de contraste en negro»."},{"id":147,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"En la actividad 10 de «Resuelve y Practica» aparecen cinco señales para identificar: a) persona echando agua prohibido (sobre fuego/eléctrico), b) mascarilla azul, c) camilla verde con cruz, d) flecha hacia abajo en fondo rojo, e) líquido goteando sobre mano/superficie en triángulo amarillo. ¿Cuál es la identificación correcta de las señales b), c) y e)?","options":{"A":"b) Prohibición de paso, c) Lucha contra incendios, e) Obligación de guantes.","B":"b) Obligación de mascarilla, c) Salvamento o auxilio, e) Advertencia de corrosivos.","C":"b) Advertencia biológica, c) Salida clausurada, e) Prohibición de verter sustancias ácidas.","D":"b) Socorro respiratorio, c) Obligación de botiquín, e) Extinción de incendios químicos."},"correct":"B","explanation":"La señal b) redonda azul con mascarilla blanca es obligación de protección respiratoria; la c) rectangular verde con camilla y cruz blanca es salvamento o socorro (primeros auxilios); la e) triangular amarilla con borde negro y líquido corroyendo una superficie y una mano es advertencia de material corrosivo."},{"id":148,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"Observando la señal de prohibición en la tabla oficial (pág. 51), ¿en qué dirección exacta debe trazarse la banda transversal roja sobre el círculo?","options":{"A":"Descendente de izquierda a derecha sobre el fondo blanco y el pictograma negro.","B":"Ascendente de izquierda a derecha por detrás del fondo amarillo de contraste.","C":"Horizontal en el centro del panel sobre un pictograma blanco y fondo azul.","D":"Vertical dividiendo en dos mitades un rectángulo rojo con bordes negros."},"correct":"A","explanation":"La tabla de ejemplos de señales de seguridad especifica literalmente para la señal de prohibición: «Redonda. Pictograma negro sobre fondo blanco, bordes y banda transversal descendente de izquierda a derecha, rojos»."},{"id":149,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"Un empresario coloca en el laboratorio una señal de «Obligación de protección ocular» con forma triangular, fondo azul y pictograma negro. ¿Qué dos errores formales comete respecto a las normas del panel de seguridad?","options":{"A":"El fondo debería ser verde en laboratorios químicos y llevar borde rojo perimetral.","B":"La señal de obligación debe ser cuadrada y combinar fondo rojo con símbolo blanco.","C":"La forma triangular corresponde a prohibición y el pictograma azul exige borde amarillo.","D":"La señal de obligación debe ser redonda y tener pictograma blanco sobre fondo azul."},"correct":"D","explanation":"Según la tabla de la pág. 51, las señales de obligación tienen forma redonda (el triángulo es para advertencia) y el pictograma es de color blanco sobre fondo azul (el azul lleva blanco como color de contraste, no negro)."},{"id":150,"topicId":"t5","topic":"5. Las señales de seguridad","subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","stem":"En una inspección escolar de un centro de estudios (actividad 9 de «Resuelve y Practica»), el alumnado localiza: una cruz blanca sobre fondo verde en el botiquín, un casco blanco sobre fondo azul en el taller, un triángulo amarillo con rayo negro en el cuadro eléctrico y un cuadrado rojo con manguera blanca en el pasillo. ¿Qué clasificación es correcta en el mismo orden?","options":{"A":"Prohibición, advertencia, salvamento y obligación de protección.","B":"Salvamento, obligación, advertencia y lucha contra incendios.","C":"Advertencia, salvamento, lucha contra incendios y prohibición.","D":"Lucha contra incendios, obligación, prohibición y salvamento."},"correct":"B","explanation":"Cruz blanca sobre fondo verde = salvamento o socorro; casco blanco sobre fondo azul = obligación; triángulo amarillo con rayo negro = advertencia; cuadrado rojo con manguera blanca = equipos de lucha contra incendios."}];
+      var TOPIC_TREE = [{"topicId":"t1","topic":"1. Las medidas de prevención y de protección","count":14,"subtopics":[{"subtopicId":"1.1","subtopic":"1.1. Obligación empresarial e integración preventiva (art. 14.2 LPRL)","count":6},{"subtopicId":"1.2","subtopic":"1.2. Diferencia entre prevención y protección","count":8}]},{"topicId":"t2","topic":"2. Medidas de prevención","count":42,"subtopics":[{"subtopicId":"2.1","subtopic":"2.1. Principios de la acción preventiva (art. 15 LPRL)","count":18},{"subtopicId":"2.2","subtopic":"2.2. Técnicas preventivas básicas","count":24}]},{"topicId":"t3","topic":"3. Técnicas de protección","count":48,"subtopics":[{"subtopicId":"3.1","subtopic":"3.1. Medidas de protección colectivas","count":20},{"subtopicId":"3.2","subtopic":"3.2. Medidas de protección individual (EPI)","count":28}]},{"topicId":"t4","topic":"4. Protección especial a determinados colectivos","count":20,"subtopics":[{"subtopicId":"4.1","subtopic":"4.1. Trabajadores sensibles y con discapacidad (art. 25 LPRL)","count":6},{"subtopicId":"4.2","subtopic":"4.2. Embarazo/lactancia, menores, temporales y mayores (arts. 26-28 LPRL)","count":14}]},{"topicId":"t5","topic":"5. Las señales de seguridad","count":26,"subtopics":[{"subtopicId":"5.1","subtopic":"5.1. Concepto, objetivos y tipos según el sentido de percepción","count":12},{"subtopicId":"5.2","subtopic":"5.2. Señalización óptica en forma de panel","count":14}]}];
+      var LETTERS = ['A', 'B', 'C', 'D'];
+
+      // Estado de la aplicación
+      var state = {
+        scope: 'all',
+        requestedCount: 20,
+        shuffle: false,
+        activeQuestions: [],
+        currentIndex: 0,
+        answers: {}
+      };
+
+      // Referencias del DOM
+      var viewHome = document.getElementById('view-home');
+      var viewQuiz = document.getElementById('view-quiz');
+      var viewResults = document.getElementById('view-results');
+
+      var scopeSelect = document.getElementById('scope-select');
+      var availableCountEl = document.getElementById('available-count');
+      var countButtonsEl = document.getElementById('count-buttons');
+      var shuffleCheckbox = document.getElementById('shuffle-checkbox');
+      var topicSummaryEl = document.getElementById('topic-summary');
+
+      var quizProgressText = document.getElementById('quiz-progress-text');
+      var progressBarRole = document.getElementById('progress-bar-role');
+      var progressFill = document.getElementById('progress-fill');
+      var questionMeta = document.getElementById('question-meta');
+      var questionStem = document.getElementById('question-stem');
+      var optionsContainer = document.getElementById('options-container');
+      var feedbackBox = document.getElementById('feedback-box');
+      var feedbackHeading = document.getElementById('feedback-heading');
+      var feedbackExplanation = document.getElementById('feedback-explanation');
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+
+      var resultsTitle = document.getElementById('results-title');
+      var resultsMessage = document.getElementById('results-message');
+      var resTotal = document.getElementById('res-total');
+      var resCorrect = document.getElementById('res-correct');
+      var resWrong = document.getElementById('res-wrong');
+      var resPct = document.getElementById('res-pct');
+      var resGrade = document.getElementById('res-grade');
+      var btnRepeatIncorrect = document.getElementById('btn-repeat-incorrect');
+      var btnRepeat = document.getElementById('btn-repeat');
+
+      function filterByScope(scope) {
+        if (scope === 'all') return QUESTIONS.slice();
+        if (scope.indexOf('topic:') === 0) {
+          var tid = scope.slice(6);
+          return QUESTIONS.filter(function (q) { return q.topicId === tid; });
+        }
+        if (scope.indexOf('subtopic:') === 0) {
+          var sid = scope.slice(9);
+          return QUESTIONS.filter(function (q) { return q.subtopicId === sid; });
+        }
+        return QUESTIONS.slice();
+      }
+
+      function getCountChoices(totalAvailable) {
+        var presets = [10, 15, 20, 30, 50, 100];
+        var choices = presets.filter(function (n) { return n < totalAvailable; });
+        if (totalAvailable > 0 && choices.indexOf(totalAvailable) === -1) {
+          choices.push(totalAvailable);
+        }
+        return choices;
+      }
+
+      function showScreen(name) {
+        viewHome.classList.toggle('hidden', name !== 'home');
+        viewQuiz.classList.toggle('hidden', name !== 'quiz');
+        viewResults.classList.toggle('hidden', name !== 'results');
+      }
+
+      function initHome() {
+        // Poblar menú de temas y subtemas
+        var optAll = document.createElement('option');
+        optAll.value = 'all';
+        optAll.textContent = 'Todos los temas (' + QUESTIONS.length + ' preguntas)';
+        scopeSelect.appendChild(optAll);
+
+        TOPIC_TREE.forEach(function (group) {
+          var optgroup = document.createElement('optgroup');
+          optgroup.label = group.topic;
+
+          var optTopic = document.createElement('option');
+          optTopic.value = 'topic:' + group.topicId;
+          optTopic.textContent = 'Tema completo: ' + group.topic + ' (' + group.count + ' preguntas)';
+          optgroup.appendChild(optTopic);
+
+          group.subtopics.forEach(function (sub) {
+            var optSub = document.createElement('option');
+            optSub.value = 'subtopic:' + sub.subtopicId;
+            optSub.textContent = sub.subtopic + ' (' + sub.count + ' preguntas)';
+            optgroup.appendChild(optSub);
+          });
+
+          scopeSelect.appendChild(optgroup);
+
+          // Resumen en barra lateral
+          var li = document.createElement('li');
+          var spanTopic = document.createElement('span');
+          spanTopic.textContent = group.topic;
+          var spanCount = document.createElement('span');
+          spanCount.className = 'topic-count tabular-nums';
+          spanCount.textContent = group.count + ' preg.';
+          li.appendChild(spanTopic);
+          li.appendChild(spanCount);
+          topicSummaryEl.appendChild(li);
+        });
+
+        renderCountButtons();
+      }
+
+      function renderCountButtons() {
+        var pool = filterByScope(state.scope);
+        var available = pool.length;
+        availableCountEl.textContent = String(available);
+
+        var choices = getCountChoices(available);
+        if (choices.indexOf(state.requestedCount) === -1) {
+          state.requestedCount = choices[choices.length - 1] || available;
+        }
+
+        countButtonsEl.innerHTML = '';
+        choices.forEach(function (num) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'count-btn tabular-nums' + (num === state.requestedCount ? ' active' : '');
+          btn.textContent = num === available ? 'Todas (' + num + ')' : String(num);
+          btn.addEventListener('click', function () {
+            state.requestedCount = num;
+            renderCountButtons();
+          });
+          countButtonsEl.appendChild(btn);
+        });
+      }
+
+      function startQuiz() {
+        var pool = filterByScope(state.scope);
+        if (state.shuffle) {
+          for (var i = pool.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = pool[i];
+            pool[i] = pool[j];
+            pool[j] = tmp;
+          }
+        }
+        var count = Math.max(1, Math.min(state.requestedCount, pool.length));
+        state.activeQuestions = pool.slice(0, count);
+        state.currentIndex = 0;
+        state.answers = {};
+        showScreen('quiz');
+        renderQuestion();
+      }
+
+      function renderQuestion() {
+        var q = state.activeQuestions[state.currentIndex];
+        if (!q) return;
+
+        var total = state.activeQuestions.length;
+        var answeredCount = Object.keys(state.answers).length;
+        var pct = Math.round(((state.currentIndex + 1) / total) * 100);
+
+        quizProgressText.textContent =
+          'Pregunta ' + (state.currentIndex + 1) + ' de ' + total + ' · Respondidas: ' + answeredCount + '/' + total;
+        progressBarRole.setAttribute('aria-valuenow', String(pct));
+        progressFill.style.width = pct + '%';
+
+        questionMeta.textContent = q.topic + ' · ' + q.subtopic;
+        questionStem.textContent = q.stem;
+
+        var selected = state.answers[q.id];
+        var isAnswered = selected !== undefined;
+
+        optionsContainer.innerHTML = '';
+        LETTERS.forEach(function (letter) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'option-btn';
+          btn.disabled = isAnswered;
+
+          if (isAnswered) {
+            if (letter === q.correct) {
+              btn.classList.add('is-correct');
+            } else if (letter === selected && letter !== q.correct) {
+              btn.classList.add('is-wrong');
+            } else {
+              btn.classList.add('is-dimmed');
+            }
+          }
+
+          var spanLetter = document.createElement('span');
+          spanLetter.className = 'option-letter';
+          spanLetter.textContent = letter;
+
+          var spanText = document.createElement('span');
+          spanText.className = 'option-text';
+          spanText.textContent = q.options[letter];
+
+          btn.appendChild(spanLetter);
+          btn.appendChild(spanText);
+
+          if (isAnswered && (letter === q.correct || letter === selected)) {
+            var spanTag = document.createElement('span');
+            spanTag.className = 'option-tag';
+            spanTag.textContent = letter === q.correct ? 'Correcta' : 'Incorrecta';
+            btn.appendChild(spanTag);
+          }
+
+          btn.addEventListener('click', function () {
+            handleAnswer(q.id, letter);
+          });
+
+          optionsContainer.appendChild(btn);
+        });
+
+        if (isAnswered) {
+          var ok = selected === q.correct;
+          feedbackBox.classList.remove('hidden', 'is-correct', 'is-wrong');
+          feedbackBox.classList.add(ok ? 'is-correct' : 'is-wrong');
+          feedbackHeading.textContent = ok
+            ? '¡Enhorabuena! Respuesta correcta.'
+            : 'Respuesta incorrecta. La alternativa correcta es la ' + q.correct + '.';
+          feedbackExplanation.innerHTML = '<strong>Explicación didáctica:</strong> ';
+          feedbackExplanation.appendChild(document.createTextNode(q.explanation));
+
+          btnNext.classList.remove('hidden');
+          btnNext.textContent = state.currentIndex === total - 1
+            ? 'Finalizar y ver resultados'
+            : 'Siguiente pregunta';
+        } else {
+          feedbackBox.classList.add('hidden');
+          btnNext.classList.add('hidden');
+        }
+
+        btnPrev.disabled = state.currentIndex === 0;
+      }
+
+      function handleAnswer(questionId, letter) {
+        if (state.answers[questionId] !== undefined) return;
+        state.answers[questionId] = letter;
+        renderQuestion();
+      }
+
+      function showResults() {
+        var total = state.activeQuestions.length;
+        var correct = 0;
+        state.activeQuestions.forEach(function (q) {
+          if (state.answers[q.id] === q.correct) correct++;
+        });
+        var wrong = total - correct;
+        var pct = total > 0 ? Math.round((correct / total) * 1000) / 10 : 0;
+        var grade = total > 0 ? Math.round(((correct / total) * 10) * 100) / 100 : 0;
+
+        var title = 'Buen punto de partida';
+        var msg = 'Conviene repasar los fundamentos de prevención, protección y señalización en las explicaciones de cada pregunta antes de volver a intentarlo.';
+        if (grade >= 9) {
+          title = 'Dominio excelente de la unidad';
+          msg = 'Has demostrado una comprensión profunda de los principios preventivos, las técnicas de protección, los colectivos sensibles y la señalización de seguridad.';
+        } else if (grade >= 7) {
+          title = 'Muy buen resultado';
+          msg = 'Manejas con soltura la mayoría de los conceptos y sabes aplicarlos a situaciones reales. Repasa las explicaciones de los fallos para alcanzar la máxima precisión.';
+        } else if (grade >= 5) {
+          title = 'Resultado aprobado con margen de mejora';
+          msg = 'Has superado la prueba, aunque conviene reforzar la distinción entre prevención y protección, las categorías de EPI y los colectivos especialmente sensibles.';
+        }
+
+        resultsTitle.textContent = title;
+        resultsMessage.textContent = msg;
+        resTotal.textContent = String(total);
+        resCorrect.textContent = String(correct);
+        resWrong.textContent = String(wrong);
+        resPct.textContent = pct + '%';
+        resGrade.textContent = grade.toFixed(2);
+        var gradeBox = document.getElementById('res-grade-box');
+        if (gradeBox) {
+          gradeBox.classList.toggle('is-fail', grade < 5);
+        }
+
+        if (btnRepeatIncorrect && btnRepeat) {
+          if (wrong > 0) {
+            btnRepeatIncorrect.textContent = 'Repetir incorrectas (' + wrong + ')';
+            btnRepeatIncorrect.classList.remove('hidden');
+            btnRepeat.classList.remove('btn-primary');
+            btnRepeat.classList.add('btn-secondary');
+          } else {
+            btnRepeatIncorrect.classList.add('hidden');
+            btnRepeat.classList.remove('btn-secondary');
+            btnRepeat.classList.add('btn-primary');
+          }
+        }
+
+        showScreen('results');
+      }
+
+      // Eventos de interfaz
+      scopeSelect.addEventListener('change', function (e) {
+        state.scope = e.target.value;
+        renderCountButtons();
+      });
+
+      shuffleCheckbox.addEventListener('change', function (e) {
+        state.shuffle = e.target.checked;
+      });
+
+      document.getElementById('btn-start').addEventListener('click', startQuiz);
+      document.getElementById('btn-home').addEventListener('click', function () {
+        showScreen('home');
+      });
+      document.getElementById('btn-restart').addEventListener('click', function () {
+        state.currentIndex = 0;
+        state.answers = {};
+        renderQuestion();
+      });
+      btnPrev.addEventListener('click', function () {
+        if (state.currentIndex > 0) {
+          state.currentIndex -= 1;
+          renderQuestion();
+        }
+      });
+      btnNext.addEventListener('click', function () {
+        if (state.currentIndex < state.activeQuestions.length - 1) {
+          state.currentIndex += 1;
+          renderQuestion();
+        } else {
+          showResults();
+        }
+      });
+      btnRepeatIncorrect.addEventListener('click', function () {
+        var incorrect = state.activeQuestions.filter(function (q) {
+          return state.answers[q.id] !== q.correct;
+        });
+        if (incorrect.length === 0) return;
+        state.activeQuestions = incorrect;
+        state.currentIndex = 0;
+        state.answers = {};
+        showScreen('quiz');
+        renderQuestion();
+      });
+      btnRepeat.addEventListener('click', startQuiz);
+      document.getElementById('btn-other-topic').addEventListener('click', function () {
+        showScreen('home');
+      });
+      document.getElementById('btn-results-home').addEventListener('click', function () {
+        showScreen('home');
+      });
+
+      // Inicialización
+      initHome();
+      showScreen('home');
+    })();
+  </script>
+</body>
+</html>
